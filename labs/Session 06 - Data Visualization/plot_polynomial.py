@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# plot_polynomial_instructor.py
+# plot_polynomial.py
 
 import matplotlib.pyplot as plt
 import numpy as np

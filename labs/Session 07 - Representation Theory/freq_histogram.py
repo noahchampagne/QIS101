@@ -47,8 +47,7 @@ def main(file_name):
 if __name__ == "__main__":
     file_name = None
     if len(sys.argv) == 1:
-        file_name = os.path.dirname(sys.argv[0]) + "/gettysburg.txt"
+        print("You must provide a filename")
     else:
         file_name = sys.argv[1]
-
-    main(file_name)
+        main(file_name)

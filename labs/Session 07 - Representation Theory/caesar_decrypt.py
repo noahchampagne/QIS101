@@ -18,9 +18,8 @@ def main(file_name, key_shift):
 if __name__ == "__main__":
     file_name = None
     if len(sys.argv) == 1:
-        file_name = os.path.dirname(sys.argv[0]) + "/ciphertext1.txt"
-        key_shift = -45
+        print("You must provide a filename and a key value")
     else:
         file_name = sys.argv[1]
         key_shift = int(sys.argv[2])
-    main(file_name, key_shift)
+        main(file_name, key_shift)

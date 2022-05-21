@@ -26,6 +26,7 @@ def main():
             f"Radius = {radius:>6,}"
             f"  Act Points = {act_points:>12,}"
             f"  Est Points = {est_points:>12,}"
+            f"  % Rel. Err = {(act_points - est_points)/est_points:0.4%}"
         )
 
 

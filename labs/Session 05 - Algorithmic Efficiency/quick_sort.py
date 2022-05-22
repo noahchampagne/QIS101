@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# quicksort.py
+# quick_sort.py
 
 import numpy as np
 import time

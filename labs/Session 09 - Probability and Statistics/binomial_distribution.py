@@ -2,17 +2,13 @@
 # binomial_distribution.py
 
 import matplotlib.pyplot as plt
-
 from matplotlib.ticker import MultipleLocator
 from scipy.stats import binom
-import seaborn as sns
-import numpy as np
 import sys
 import os
 
 
 def plot(ax):
-
     # n = Number of trials
     n = 50
 

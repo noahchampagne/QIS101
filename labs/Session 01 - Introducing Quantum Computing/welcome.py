@@ -7,7 +7,7 @@ import sys
 import os
 
 
-def plot(ax):
+def plot(ax): 
     x = np.linspace(-2, 2, 500)
     f_top = np.sqrt(1 - (np.abs(x) - 1) ** 2)
     f_bot = np.arccos(1 - np.abs(x)) - np.pi
@@ -29,3 +29,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+            

@@ -34,7 +34,7 @@ conda install -y jupyterlab_code_formatter
 conda install -y ipympl
 pip install pygame
 pip install 'qiskit[all]'
-code --install-extension ms-code.cpptools
+code --install-extension ms-vscode.cpptools
 code --install-extension ms-vscode.cpptools-extension-pack
 code --install-extension ms-vscode.powershell
 code --install-extension ms-python.python

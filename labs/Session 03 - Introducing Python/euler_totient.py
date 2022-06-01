@@ -18,7 +18,7 @@ def totient(n: int) -> int:
 
 def main():
     print("Natural numbers between 2 and 100", end=" ")
-    print("that are equal to their own totient:")
+    print("that exceed their totient by one:")
 
     for n in range(2, 101):
         if n == totient(n) + 1:

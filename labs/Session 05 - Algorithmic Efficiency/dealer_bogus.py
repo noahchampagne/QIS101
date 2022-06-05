@@ -32,7 +32,8 @@ def card_name(card_num):
 
 def display_deck(deck):
     for card_pos, card_num in enumerate(deck):
-        print(f"The card in position {card_pos} is the {card_name(card_num)}")
+        #print(f"The card in position {card_pos} is the {card_name(card_num)}")
+        print(f"The card in position {card_pos} is the {card_num}")
 
 
 def deal_cards(deck):

@@ -33,15 +33,8 @@ def bubble_sort(a):
 
 
 @jit(nopython=True)
-def bubble_sort_once():
-    samples = init_samples()
-    bubble_sort(samples)
-
-
-@jit(nopython=True)
 def median_of_three(a, lo, hi):
-    mid = int((lo + hi) / 2)
-    # Return the median value of lo, mid, or hi    
+    mid = (lo + hi) // 2
     x, y, z = a[lo], a[mid], a[hi]
     if x < y:
         if y < z:
@@ -90,6 +83,12 @@ def quick_sort(a, lo, hi):
             quick_sort(a, lo, p - 1)
         quick_sort(a, p + 1, hi)
     return
+
+
+@jit(nopython=True)
+def bubble_sort_once():
+    samples = init_samples()
+    bubble_sort(samples)
 
 
 @jit(nopython=True)

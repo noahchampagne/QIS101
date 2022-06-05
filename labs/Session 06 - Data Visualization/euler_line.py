@@ -27,7 +27,7 @@ def radline_connect(pt1, pt2):
     return (theta, d)
 
 
-def radline_tanget(rl, pt):
+def radline_tangent(rl, pt):
     theta, d = rl
     # Rotate radon line by 90 degrees, while ensuring
     # theta remains within the interval [0, pi)
@@ -94,9 +94,9 @@ def plot_triangle(ax):
 def plot_orthocenter(ax):
     # Formulate the radon lines describing each altitude, which is a line
     # extending from each vertex that is perpendicular to the opposite edge
-    rlA_alt = radline_tanget(rlBC, ptA)
-    rlB_alt = radline_tanget(rlAC, ptB)
-    rlC_alt = radline_tanget(rlAB, ptC)
+    rlA_alt = radline_tangent(rlBC, ptA)
+    rlB_alt = radline_tangent(rlAC, ptB)
+    rlC_alt = radline_tangent(rlAB, ptC)
 
     # Plot the altitudes
     x = np.linspace(-100, 100, 100)
@@ -123,9 +123,9 @@ def plot_circumcenter(ax):
 
     # Calculate the radon line that is the
     # perpendicular bisector of each edge
-    rlA_bis = radline_tanget(rlBC, ptBC_mid)
-    rlB_bis = radline_tanget(rlAC, ptAC_mid)
-    rlC_bis = radline_tanget(rlAB, ptAB_mid)
+    rlA_bis = radline_tangent(rlBC, ptBC_mid)
+    rlB_bis = radline_tangent(rlAC, ptAC_mid)
+    rlC_bis = radline_tangent(rlAB, ptAB_mid)
 
     # Plot the perpendicular bisectors
     x = np.linspace(-100, 100, 100)
@@ -231,9 +231,9 @@ def plot_incenter(ax):
 
 def plot(ax):
     plot_triangle(ax)
-    # plot_circumcenter(ax)
-    # plot_orthocenter(ax)
-    # plot_euler_Line(ax)
+    plot_circumcenter(ax)
+    plot_orthocenter(ax)
+    plot_euler_Line(ax)
 
     # Note: the triangle incenter is falls on the
     # Euler line if and only if the triangle is isosceles

@@ -8,6 +8,7 @@ import os
 def main():
     # The secret key is 16 bytes long
     secret_key = os.urandom(16)
+    print(f"Secret key = {bytearray(secret_key).hex()}\n")
 
     # iv = (Random) initialization vector which ensures
     # the same value encrypted multiple times, even with the

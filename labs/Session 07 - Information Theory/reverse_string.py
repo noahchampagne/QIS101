@@ -26,6 +26,7 @@ def reverse_str3(a):
 def main():
     s = "Forever Young"
     print(s)
+    print(f"Number of characters: {len(s)}")
 
     print(reverse_str(s))
     print(reverse_str2(s))

@@ -9,7 +9,7 @@ import sys
 def main():
     file_name = os.path.dirname(sys.argv[0]) + "/bigram_ciphertext.txt"
     with open(file_name, "rb") as f_in:
-        print(f'Bigram analysis of file "{file_name}" :')
+        print(f'Bigram analysis of file \n"{file_name}" :')
 
         # Read in text file into an array of file bytes
         f_bytes = bytearray(f_in.read())
@@ -28,7 +28,7 @@ def main():
         # so the bigrams with the highest normalized frequency appear first
         sorted_bigrams = sorted(bigrams.items(), key=lambda kv: kv[1], reverse=True)
 
-        # Print the top 10 most frequently occuring bigrams in text file
+        # Print the top 10 most frequently occurring bigrams in text file
         for k, v in sorted_bigrams[:10]:
             # Convert key tuple to ASCII string
             s = "".join(map(chr, k))

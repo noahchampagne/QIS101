@@ -2,31 +2,18 @@
 # rsa_demo.py
 
 import numpy as np
-import aes
-import os
 
 
 def extended_euclidean(a, b):
-    # Ensure a > b
     swapped = False
     if a < b:
         a, b = b, a
         swapped = True
-    # ca and cb store current a and b in form of
-    # coefficients with initial a and b
-    # a' = ca[0] * a + ca[1] * b
-    # b' = cb[0] * a + cb[1] * b
     ca = (1, 0)
     cb = (0, 1)
     while b != 0:
-        # k denotes how many times number b
-        # can be subtracted from a
         k = a // b
-        # a  <- b
-        # b  <- a - b * k
-        # ca <- cb
-        # cb <- (ca[0] - k * cb[0], ca[1] - k * cb[1])
-        a, b, ca, cb = b, a-b*k, cb, (ca[0]-k*cb[0], ca[1]-k*cb[1])
+        a, b, ca, cb = b, a - b * k, cb, (ca[0] - k * cb[0], ca[1] - k * cb[1])
     if swapped:
         return (ca[1], ca[0])
     else:
@@ -51,7 +38,7 @@ def generate_keys(p, q):
     d = extended_euclidean(e, totient)[0]
     if d < 0:
         d += totient
-    return {'priv': (d, n), 'pub': (e, n)}
+    return {"priv": (d, n), "pub": (e, n)}
 
 
 def encrypt(m, public_key):
@@ -74,8 +61,8 @@ def main():
     keys = generate_keys(p, q)
     print(f"RSA Encryption Keys: {keys}")
 
-    private_key = keys['priv']
-    public_key = keys['pub']
+    private_key = keys["priv"]
+    public_key = keys["pub"]
 
     plaintext = "Hi!"
     print(f"Plaintext = {plaintext}")

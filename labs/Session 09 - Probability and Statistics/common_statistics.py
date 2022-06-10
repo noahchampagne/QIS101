@@ -44,7 +44,7 @@ def pop_variance(samples):
 def main():
     np.random.seed(2021)
     samples = np.random.randint(0, 100, 30)
-    print(f"Samples      = {samples.tolist()}")
+    print(f"Samples      = {samples.tolist()}")    
     print()
 
     print(f"Mean         = {mean(samples):.4f}")

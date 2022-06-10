@@ -20,15 +20,15 @@ def score_deal(hands):
     for player in range(4):
         # Ideally each player would have 3.25 cards of each suit
         for suit in range(4):
-            num_cards_in_suit = np.sum(hands[player][suit])
-            score += (num_cards_in_suit - 3.25) ** 2
+            score += (np.sum(hands[player][suit]) - 3.25) ** 2
+
         # Ideally each player would have one card of each rank
         for rank in range(13):
-            num_cards_in_rank = hands[player][0][rank]
-            num_cards_in_rank += hands[player][1][rank]
-            num_cards_in_rank += hands[player][2][rank]
-            num_cards_in_rank += hands[player][3][rank]
-            score += (num_cards_in_rank - 1) ** 2
+            score += (hands[player][0][rank] - 1) ** 2
+            score += (hands[player][1][rank] - 1) ** 2
+            score += (hands[player][2][rank] - 1) ** 2
+            score += (hands[player][3][rank] - 1) ** 2
+
     return score
 
 
@@ -59,8 +59,8 @@ def riffle_shuffle(deck):
 
 
 def score_shuffle(shuffle_func, num_deals=10_000):
-    deck = np.arange(52, dtype=int)
     total_score = 0
+    deck = np.arange(52, dtype=int)
     for _ in range(num_deals):
         deck = shuffle_func(deck)
         total_score += score_deal(deal_cards(deck))

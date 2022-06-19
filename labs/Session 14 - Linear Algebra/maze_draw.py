@@ -11,7 +11,7 @@ import sys
 
 
 def load_maze(file_name):
-    maze = np.genfromtxt(file_name, delimiter=",", dtype=np.int)
+    maze = np.genfromtxt(file_name, delimiter=",", dtype=int)
     print(maze)
     return maze
 

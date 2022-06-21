@@ -77,7 +77,6 @@ def reassign(points, clusters):
             converged = False
 
     # Phase II: Assign data points to nearest cluster
-    # phase2_change = False
     for p in points:
         dist_min = sys.float_info.max
         nearest_cluster = None

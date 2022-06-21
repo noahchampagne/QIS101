@@ -20,9 +20,7 @@ def ram(a, b):
 
 
 def fit_quadratic(vec_x, vec_y):
-    print(vec_x.shape)
     vec_x = vec_x.reshape(-1, 1)  # Make a column vector
-    print(vec_x.shape)
     transformer = PolynomialFeatures(degree=2, include_bias=False)
     transformer.fit(vec_x)
     vec_x_ = transformer.transform(vec_x)
@@ -82,6 +80,8 @@ def main():
         e[b] = np.abs((r[b] - p[b]) / r[b])
 
     fa, fb, fc = fit_quadratic(np.arange(len(e)), e)
+    print("Quadratic Error Adjuster:")
+    print(f"{fa:.5f}x^2 + {fb:.5f}x + {fc:.5f}")
 
     print(f"{'b':>3}{'Perimeter':>10}{'Ramanujan':>11}{'Error':>10}{'Adjusted':>10}")
     for b, _ in enumerate(p):

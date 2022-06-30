@@ -8,24 +8,24 @@ import os
 
 
 def plot(ax):
-    radius_toroidal = 25
     radius_poloidal = 5
+    radius_toroidal = 25
 
     u = np.linspace(0, 2 * np.pi, 30)  # Poloidal rotation
     v = np.linspace(0, 2 * np.pi, 30)  # Toroidal rotation
 
-    x = np.outer(radius_toroidal + radius_poloidal * np.cos(u), np.cos(v))
-    y = np.outer(radius_toroidal + radius_poloidal * np.cos(u), np.sin(v))
-    z = np.outer(radius_poloidal * np.sin(u), np.ones_like(v))
+    x = np.outer(radius_toroidal + radius_poloidal * np.sin(u), np.cos(v))
+    y = np.outer(radius_toroidal + radius_poloidal * np.sin(u), np.sin(v))
+    z = np.outer(radius_poloidal * np.cos(u), np.ones_like(v))
 
     ax.set_xlabel("x")
     ax.set_ylabel("y")
     ax.set_zlabel("z")
 
     ax.view_init(azim=-60, elev=50)
-    ax.set_xlim(-25, 25)
-    ax.set_ylim(-25, 25)
-    ax.set_zlim(-25, 25)
+    ax.set_xlim(-radius_toroidal, radius_toroidal)
+    ax.set_ylim(-radius_toroidal, radius_toroidal)
+    ax.set_zlim(-radius_toroidal, radius_toroidal)
 
     # TODO: Uncomment the following lines one-by-one
     ax.scatter(x, y, z)

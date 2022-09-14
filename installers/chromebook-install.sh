@@ -2,7 +2,6 @@ cd $HOME
 conda create -y -n qis101 python=3.9
 conda activate qis101
 conda config --env --add channels conda-forge
-conda config --env --set channel_priority strict
 conda install -y mayavi
 conda install -y numpy
 conda install -y numba

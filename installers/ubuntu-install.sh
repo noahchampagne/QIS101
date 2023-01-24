@@ -1,35 +1,36 @@
 cd $HOME
 conda create -y -n qis101 python=3.9
 conda activate qis101
-conda config --env --add channels conda-forge
-conda install -y mayavi
-conda install -y numpy
-conda install -y numba
-conda install -y matplotlib
-conda install -y sympy
-conda install -y scipy
-conda install -y scikit-learn
-conda install -y pulp
-conda install -y pandas
-conda install -y pandasql
-conda install -y docutils
-conda install -y pandocfilters
-conda install -y numexpr
-conda install -y h5py
-conda install -y traitsui
-conda install -y pathspec
-conda install -y openpyxl
-conda install -y pylint
-conda install -y autopep8
-conda install -y black
-conda install -y websockets
-conda install -y requests
-conda install -y pyserial
-conda install -y nodejs
-conda install -y jupyterlab
-conda install -y jupyterlab_widgets
-conda install -y jupyterlab_code_formatter
-conda install -y ipympl
+pip install mayavi
+pip install numpy
+pip install numba
+pip install matplotlib
+pip install sympy
+pip install scipy
+pip install scikit-learn
+pip install pulp
+pip install pandas
+pip install pandasql
+pip install docutils
+pip install pandocfilters
+pip install numexpr
+pip install h5py
+pip install traitsui
+pip install pathspec
+pip install openpyxl
+pip install pylint
+pip install autopep8
+pip install black
+pip install isort
+pip install websockets
+pip install requests
+pip install pyserial
+pip install nodejs
+pip install jupyterlab
+pip install jupyterlab_widgets
+pip install jupyterlab_code_formatter
+pip install jupyterblack
+pip install ipympl
 pip install pygame
 pip install 'qiskit[all]'
 code --install-extension ms-vscode.cpptools
@@ -51,4 +52,5 @@ code --install-extension redhat.vscode-yaml
 code --install-extension eamodio.gitlens
 echo 'y' | jupyter lab --generate-config
 echo 'c.ServerApp.use_redirect_file = False' >> $HOME/.jupyter/jupyter_lab_config.py
+jupyter nbextension enable --py --sys-prefix widgetsnbextension
 

@@ -26,7 +26,7 @@ def plot(ax):
 
 def main():
     fig, ax = plt.subplots(subplot_kw={"projection": "polar"})
-    fig.canvas.set_window_title(os.path.basename(sys.argv[0]))
+    fig.canvas.manager.set_window_title(os.path.basename(sys.argv[0]))
     plot(ax)
     plt.show()
 

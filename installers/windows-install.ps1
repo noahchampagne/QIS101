@@ -1,4 +1,5 @@
 Set-Location $HOME
+conda update -n base conda -y
 conda create -y -n qis101 python=3.9
 conda activate qis101
 pip install mayavi

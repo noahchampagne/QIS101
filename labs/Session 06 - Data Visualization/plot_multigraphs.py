@@ -24,7 +24,7 @@ def main():
     ax = fig.add_subplot(gs[1, 0])
     plot_rings.plot(ax)
 
-    ax = fig.add_subplot(gs[1, 1], projection='polar')
+    ax = fig.add_subplot(gs[1, 1], projection="polar")
     plot_rose_curves.plot(ax)
 
     plt.show()

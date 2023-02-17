@@ -20,10 +20,10 @@ def plot(ax):
     ax.set_ylabel("y")
 
     ax.grid()
-    ax.axhline(0, color='black')
-    ax.axvline(0, color='black')
+    ax.axhline(0, color="black")
+    ax.axvline(0, color="black")
 
-    ax.set_aspect('equal')
+    ax.set_aspect("equal")
 
 
 def main():

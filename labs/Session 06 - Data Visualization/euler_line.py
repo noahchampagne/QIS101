@@ -6,6 +6,12 @@ import matplotlib.pyplot as plt
 import sys
 import os
 
+# Initialize global variables
+ptA, ptB, ptC = np.empty(0), np.empty(0), np.empty(0)
+rlAB, rlAC, rlBC = np.empty(0), np.empty(0), np.empty(0)
+ptOrtho, ptCircum = np.empty(0), np.empty(0)
+prng_seed = 0
+
 
 def radline_y(rl, x):
     theta, d = rl

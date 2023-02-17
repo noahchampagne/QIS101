@@ -5,7 +5,7 @@ import math
 import numba as nb
 
 
-@nb.njit(locals={"x": nb.uint64, "y": nb.uint64})
+@nb.njit()
 def pell_solution(n):
     x = 1
     while x < 70_000:

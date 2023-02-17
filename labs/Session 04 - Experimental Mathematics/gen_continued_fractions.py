@@ -29,7 +29,7 @@ def print_rel_error(estimated, actual):
 
 
 def main():
-    print(f"Euler's Generalized Continued Fraction for Pi")
+    print("Euler's Generalized Continued Fraction for Pi")
     x = decode_gencf(3, 1, 4, 4, 1, 0, 6)
     print_rel_error(x, math.pi)
 

@@ -17,7 +17,7 @@ def area(triangle):
 
 def main():
     np.random.seed(2016)
-    for n in range(10):
+    for _ in range(10):
         while not is_triangle(t := np.random.randint(1, 100, 3)):
             continue
         print(f"{t} {area(t):>9.4f}")

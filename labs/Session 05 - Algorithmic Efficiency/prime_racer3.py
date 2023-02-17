@@ -7,7 +7,7 @@ import time
 
 
 def init_samples(num_samples, min_sample, max_sample):
-    samples = [None] * num_samples
+    samples: list = [int] * num_samples
     for idx, _ in enumerate(samples):
         samples[idx] = random.randint(min_sample, max_sample)
     return samples

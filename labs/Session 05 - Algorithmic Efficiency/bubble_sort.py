@@ -6,8 +6,8 @@ import time
 
 
 def init_samples():
-    samples = []
-    for i in range(100):
+    samples : list = []
+    for _ in range(100):
         samples.append(np.random.randint(1, 101))
     return samples
 

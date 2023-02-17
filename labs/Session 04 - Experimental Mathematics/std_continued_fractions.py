@@ -15,7 +15,7 @@ def normalize_cf(cf):
 
 
 def encode_cf(x):
-    cf = []
+    cf : list = []
     while len(cf) < MAX_TERMS:
         cf.append(math.floor(x))
         x = x - math.floor(x)

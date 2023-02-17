@@ -19,8 +19,9 @@ ranks = [
     "Ace",
 ]
 
+
 def init_deck():
-    deck = [None] * 52
+    deck : list = [int] * 52
     for card_pos, _ in enumerate(deck):
         deck[card_pos] = card_pos
     return deck

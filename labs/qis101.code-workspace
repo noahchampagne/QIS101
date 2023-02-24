@@ -164,12 +164,16 @@
       "zmin",
       "zorder"
     ],
-    "python.formatting.provider": "black",
     "files.autoSave": "afterDelay",
     "editor.formatOnSave": true,
     "debug.terminal.clearBeforeReusing": false,
     "python.terminal.activateEnvInCurrentTerminal": false,
-    "python.terminal.activateEnvironment": false
+    "python.terminal.activateEnvironment": false,
+    "python.defaultInterpreterPath": "${env:CONDA_PREFIX}/python.exe",
+    "python.formatting.provider": "black",
+    "python.analysis.typeCheckingMode": "basic",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
   },
   "launch": {
     "version": "0.2.0",

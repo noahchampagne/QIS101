@@ -87,6 +87,7 @@
             "mplot",
             "mpmath",
             "multivector",
+            "mypy",
             "ndenumerate",
             "newaxis",
             "njit",
@@ -174,6 +175,7 @@
         "python.formatting.provider": "black",
         "python.analysis.typeCheckingMode": "basic",
         "python.linting.pylintEnabled": true,
+        "python.linting.mypyEnabled": true,
         "python.linting.enabled": true
     },
     "launch": {

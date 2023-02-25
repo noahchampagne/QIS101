@@ -23,21 +23,27 @@ ranks = [
 ]
 
 
-def init_deck():
+def init_deck() -> list[int]:
+    """Returns a 52 element list of integers initialized from 0 to 51"""
     return list(range(52))
 
 
-def card_name(card_num):
+def card_name(card_num: int) -> str:
+    """Returns the rank and suit for the given card number"""
     name = f"{ranks[card_num % 13]} of {suits[card_num // 13]}"
     return name
 
 
-def display_deck(deck):
+def display_deck(deck: list[int]):
+    """Displays each card in the given deck in order of increasing card position"""
     for card_pos, card_num in enumerate(deck):
-        print(f"The card in position {card_pos}" f" is the {card_name(card_num)}")
+        print(f"The card in position {card_pos} is the {card_name(card_num)}")
 
 
-def deal_cards(deck):
+def deal_cards(deck: list[int]):
+    """
+    Swaps the card number between two randomly chosen card positions
+    """
     for card_pos, card_num in enumerate(deck):
         new_card_pos = random.randint(0, 51)
         deck[card_pos] = deck[new_card_pos]
@@ -47,7 +53,7 @@ def deal_cards(deck):
 def main():
     random.seed(2016)
     deck = init_deck()
-    total_deals = 10000
+    total_deals = 10_000
     start_time = time.process_time()
     for _ in range(0, total_deals):
         deal_cards(deck)

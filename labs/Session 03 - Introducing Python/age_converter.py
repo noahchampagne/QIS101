@@ -1,13 +1,20 @@
-# age_converter.py
+#!/usr/bin/env python3
+"""age_converter.py"""
 
-first_name = "Dave"
 
-age_years = 55
+def main():
+    first_name = "Dave"
 
-age_secs = age_years * 60 * 60 * 24 * 365
+    age_years = 55
 
-print(f"Hello, my name is {first_name}.")
+    age_secs = age_years * 60 * 60 * 24 * 365
 
-print(f"I am {age_years} years old", end=", ")
+    print(f"Hello, my name is {first_name}.")
 
-print(f"which is {age_secs:,} seconds.")
+    print(f"I am {age_years} years old", end=", ")
+
+    print(f"which is {age_secs:,} seconds.")
+
+
+if __name__ == "__main__":
+    main()

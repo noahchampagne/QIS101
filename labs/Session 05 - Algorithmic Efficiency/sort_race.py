@@ -1,29 +1,33 @@
 #!/usr/bin/env python3
-# sort_race.py
+"""sort_race.py"""
 
-import numpy as np
+
 import timeit
+
 from numba import jit
+import numpy as np
 
 
 @jit(nopython=True)
-def init_samples():
+def init_samples() -> np.ndarray:
+    """Returns an numpy array of 50,000 integers decreasing from 50,000 to 0"""
     np.random.seed(2021)
     samples = np.arange(50_000, 0, -1)
     return samples
 
 
 @jit(nopython=True)
-def bubble_sort(a):
-    last_index = len(a) - 1
+def bubble_sort(ary: np.ndarray):
+    """Sorts the provided list in increasing order using the Bubble Sort algorithm"""
+    last_index = len(ary) - 1
     is_sorted = False
     while not is_sorted:
         swap_needed = False
         for i in range(last_index):
-            if a[i] > a[i + 1]:
-                temp = a[i]
-                a[i] = a[i + 1]
-                a[i + 1] = temp
+            if ary[i] > ary[i + 1]:
+                temp = ary[i]
+                ary[i] = ary[i + 1]
+                ary[i + 1] = temp
                 swap_needed = True
         if not swap_needed:
             is_sorted = True
@@ -33,66 +37,72 @@ def bubble_sort(a):
 
 
 @jit(nopython=True)
-def median_of_three(a, lo, hi):
-    mid = (lo + hi) // 2
-    x, y, z = a[lo], a[mid], a[hi]
+def median_of_three(ary: np.ndarray, low: int, high: int):
+    """Finds the index of the median array value at the low, high, and middle elements"""
+    mid = (low + high) // 2
+    x, y, z = ary[low], ary[mid], ary[high]
     if x < y:
         if y < z:
             return mid
         elif x < z:
-            return hi
+            return high
         else:
-            return lo
+            return low
     else:
         if x < z:
-            return lo
+            return low
         elif y < z:
-            return hi
+            return high
         else:
             return mid
 
 
 @jit(nopython=True)
-def quick_sort_partition(a, lo, hi):
-
-    pi = median_of_three(a, lo, hi)  # pivot index
-    p = a[pi]  # pivot value
+def quick_sort_partition(ary: np.ndarray, low: int, high: int):
+    """Partitions a list using the median of three strategy"""
+    pivot_index = median_of_three(ary, low, high)  # pivot index
+    pivot_value = ary[pivot_index]  # pivot value
 
     while True:
-        while a[lo] <= p and lo < pi:
-            lo += 1
-        while a[hi] > p and hi > pi:
-            hi -= 1
-        if lo == pi and hi == pi:
-            return pi
+        while ary[low] <= pivot_value and low < pivot_index:
+            low += 1
+        while ary[high] > pivot_value and high > pivot_index:
+            high -= 1
+        if low == pivot_index and high == pivot_index:
+            return pivot_index
 
         # Swap array values at lo and hi indexes
-        a[lo], a[hi] = a[hi], a[lo]
+        ary[low], ary[high] = ary[high], ary[low]
 
-        if lo == pi:
-            pi = hi
-        elif hi == pi:
-            pi = lo
+        if low == pivot_index:
+            pivot_index = high
+        elif high == pivot_index:
+            pivot_index = low
 
 
 @jit(nopython=True)
 def quick_sort(a, lo, hi):
+    """Sorts the provided list in increasing order using the Quicksort algorithm"""
     if lo < hi:
-        p = quick_sort_partition(a, lo, hi)
-        if p > 0:
-            quick_sort(a, lo, p - 1)
-        quick_sort(a, p + 1, hi)
+        partition_index = quick_sort_partition(a, lo, hi)
+        if partition_index > 0:
+            # Sort the left-hand sub-array
+            quick_sort(a, lo, partition_index - 1)
+        # Sort the right-hand sub-array
+        quick_sort(a, partition_index + 1, hi)
     return
 
 
 @jit(nopython=True)
 def bubble_sort_once():
+    """Sorts a random list just once using the Bubble Sort algorithm"""
     samples = init_samples()
     bubble_sort(samples)
 
 
 @jit(nopython=True)
 def quicksort_once():
+    """Sorts a random list just once using the Quicksort algorithm"""
     samples = init_samples()
     quick_sort(samples, 0, len(samples) - 1)
 
@@ -101,7 +111,7 @@ def main():
     print("Running tests . . .")
 
     time = timeit.timeit(bubble_sort_once, number=10)
-    print(f"Bubble sort time: {time/10:.3f} secs")
+    print(f"Bubble Sort time: {time/10:.3f} secs")
 
     time = timeit.timeit(quicksort_once, number=100)
     print(f"Quicksort time  : {time/100:.3f} secs")

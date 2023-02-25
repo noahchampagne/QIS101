@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-# welcome.py
+'''welcome.py'''
+
+import os
+import sys
 
 import matplotlib.pyplot as plt
 import numpy as np
-import sys
-import os
 
 
 def plot(ax):

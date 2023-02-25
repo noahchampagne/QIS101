@@ -1,16 +1,14 @@
 #!/usr/bin/env python3
-# perfect_numbers.py
+"""perfect_numbers.py"""
 
 
-def is_perfect_number(n):
+def is_perfect_number(n: int) -> bool:
+    """Determine if n is a perfect number"""
     sum_of_factors = 1
     for factor in range(2, n):
         if n % factor == 0:
             sum_of_factors += factor
-    if sum_of_factors == n:
-        return True
-    else:
-        return False
+    return sum_of_factors == n
 
 
 def main():

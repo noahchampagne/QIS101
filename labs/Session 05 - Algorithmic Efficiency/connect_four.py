@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# connect_four.py
+'''connect_four.py'''
 
 
 def main():

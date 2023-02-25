@@ -38,6 +38,7 @@
             "colormap",
             "CONDA",
             "coolwarm",
+            "coprime",
             "countio",
             "Courseware",
             "darkgoldenrod",
@@ -55,6 +56,8 @@
             "gencf",
             "genfromtxt",
             "GLPK",
+            "Goldbach",
+            "Goldbach's",
             "GPIO",
             "Greenberger",
             "gridspec",
@@ -88,6 +91,7 @@
             "mpmath",
             "multivector",
             "mypy",
+            "ndarray",
             "ndenumerate",
             "newaxis",
             "njit",
@@ -127,6 +131,7 @@
             "scicpy",
             "scipy",
             "seaborn",
+            "setdiff",
             "Sierpinksi",
             "sklearn",
             "Statevector",
@@ -176,7 +181,11 @@
         "python.analysis.typeCheckingMode": "basic",
         "python.linting.pylintEnabled": true,
         "python.linting.mypyEnabled": true,
-        "python.linting.enabled": true
+        "python.linting.enabled": true,
+        "python.linting.pylintArgs": [
+            "--good-names=a, b, c, d, i, j, k, n, x, x1, x2, y, y1, y2, z, z1, z2, r, s, t, ax, gs",
+            "--disable=C0111"
+        ]
     },
     "launch": {
         "version": "0.2.0",

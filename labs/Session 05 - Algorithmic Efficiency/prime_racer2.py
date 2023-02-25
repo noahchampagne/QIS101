@@ -1,18 +1,12 @@
 #!/usr/bin/env python3
-# prime_racer2.py
+"""prime_racer2.py"""
 
 import random
 import time
 
 
-def init_samples(num_samples, min_sample, max_sample):
-    samples: list = [int] * num_samples
-    for idx, _ in enumerate(samples):
-        samples[idx] = random.randint(min_sample, max_sample)
-    return samples
-
-
-def is_prime(n):
+def is_prime(n: int) -> bool:
+    """Returns True/False if the given number is prime"""
     if n % 2 == 0:
         return False
     for factor in range(3, n, 2):
@@ -21,31 +15,21 @@ def is_prime(n):
     return True
 
 
-def count_primes(samples):
-    num_primes = 0
-    for _, val in enumerate(samples):
-        if is_prime(val):
-            num_primes += 1
-    return num_primes
-
-
 def main():
     random.seed(2016)
 
-    num_samples = int(1e4)
-    min_sample_val = int(1e5)
-    max_sample_val = int(1e6)
-
-    samples = init_samples(num_samples, min_sample_val, max_sample_val)
+    num_samples, min_val, max_val = int(1e4), int(1e5), int(1e6)
 
     print(
         f"Counting the number of primes in {num_samples:,} random samples\n"
-        f"with each sample having a value between {min_sample_val:,} "
-        f"and {max_sample_val:,} inclusive . . .",
+        f"with each sample having a value between {min_val:,} "
+        f"and {max_val:,} inclusive . . .",
     )
 
+    samples = [random.randint(min_val, max_val) for _ in range(num_samples)]
+
     start_time = time.process_time()
-    num_primes = count_primes(samples)
+    num_primes = [is_prime(n) for n in samples].count(True)
     elapsed_time = time.process_time() - start_time
 
     print(f"Number of primes found: {num_primes:,}")

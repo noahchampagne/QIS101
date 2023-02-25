@@ -1,30 +1,27 @@
 #!/usr/bin/env python3
-# quicksort.py
+"""quicksort.py"""
 
-import numpy as np
+
 import time
 
-
-def init_samples():
-    samples = np.random.randint(1, 101, 100)
-    return samples
+import numpy as np
 
 
 def main():
-    np.random.seed(2021)
+    np.random.seed(2016)
 
-    samples = init_samples()
-    print(f"Unsorted: {samples}")
+    samples = np.random.randint(1, 101, 100)
+    print(f"Unsorted: {samples}\n")
 
     samples = np.sort(samples)
-    print(f"Sorted: {samples}")
+    print(f"Sorted: {samples}\n")
 
     num_trials = 10_000
     print(f"Running {num_trials:,} trials . . .")
     start_time = time.process_time()
 
     for _ in range(num_trials):
-        samples = init_samples()
+        samples = np.random.randint(1, 101, 100)
         samples = np.sort(samples)
 
     elapsed_time = time.process_time() - start_time

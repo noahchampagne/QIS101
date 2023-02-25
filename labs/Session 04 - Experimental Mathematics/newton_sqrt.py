@@ -1,26 +1,27 @@
 #!/usr/bin/env python3
-# newton_sqrt.py
+"""newton_sqrt.py"""
 
 
-def square_root(x):
-    lowEnd = 0
-    highEnd = x
+def square_root(x: float) -> float:
+    """Return square root of x using Newton's Method"""
+    low_end = 0.0
+    high_end = x
 
-    estimate = (highEnd + lowEnd) / 2
-    estimateSquared = estimate * estimate
+    estimate = (high_end + low_end) / 2
+    estimate_squared = estimate * estimate
 
     epsilon = 1e-14
 
-    while abs(estimateSquared - x) > epsilon:
-        if estimateSquared > x:
-            highEnd = estimate
+    while abs(estimate_squared - x) > epsilon:
+        if estimate_squared > x:
+            high_end = estimate
         else:
-            lowEnd = estimate
+            low_end = estimate
 
-        estimate = (highEnd + lowEnd) / 2
-        estimateSquared = estimate * estimate
+        estimate = (high_end + low_end) / 2
+        estimate_squared = estimate * estimate
 
-        if highEnd == lowEnd:
+        if high_end == low_end:
             break
 
     return estimate
@@ -31,7 +32,7 @@ def main():
 
     x_sqrt = square_root(x)
 
-    print(f"Estimated square root of \n {x:,}")
+    print(f"Estimated square root of \n {x}")
     print(f"is \n {x_sqrt:.14f}")
 
 

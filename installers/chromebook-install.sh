@@ -20,6 +20,7 @@ pip install traitsui
 pip install pathspec
 pip install openpyxl
 pip install pylint
+pip install mypy
 pip install autopep8
 pip install black
 pip install isort
@@ -39,6 +40,7 @@ code --install-extension ms-vscode.cpptools-extension-pack
 code --install-extension ms-vscode.powershell
 code --install-extension ms-python.python
 code --install-extension ms-python.vscode-pylance
+code --install-extension ms-python.isort
 code --install-extension ms-toolsai.jupyter
 code --install-extension visualstudioexptteam.vscodeintellicode
 code --install-extension streetsidesoftware.code-spell-checker

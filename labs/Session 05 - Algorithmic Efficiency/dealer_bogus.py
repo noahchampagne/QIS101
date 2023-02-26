@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """dealer_bogus.py"""
 
-import random
+from random import seed, randint
 
 suits = ["Clubs", "Diamonds", "Hearts", "Spades"]
 ranks = [
@@ -41,12 +41,12 @@ def display_deck(deck: list[int]):
 def deal_cards(deck: list[int]):
     """Sets each card position to a random card number between 0 and 51"""
     for card_pos, _ in enumerate(deck):
-        new_card_num = random.randint(0, 51)
+        new_card_num = randint(0, 51)
         deck[card_pos] = new_card_num
 
 
 def main():
-    random.seed(2016)
+    seed(2016)
     deck = init_deck()
     deal_cards(deck)
     display_deck(deck)

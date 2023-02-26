@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
-# random_straws.py
+"""random_straws.py"""
 
-import numpy as np
+import math
+from random import random
 
 
-def run_trial():
-    length = straws = 0.0
+def run_trial() -> int:
+    """Returns number of random length straws with length > 1.0"""
+    length, straws = 0.0, 0
     while length <= 1.0:
-        length += np.random.random()
+        length += random()
         straws += 1
     return straws
 
 
 def main():
-    np.random.seed(2016)
-
     num_trials = int(1e7)
 
     print(f"Performing {num_trials:,} trials...")
@@ -27,7 +27,7 @@ def main():
     mean = total_straws / num_trials
 
     print(f"Mean straws per trial     : {mean:.6f}")
-    print(f"Base of natural logarithm : {np.e:.6f}")
+    print(f"Base of natural logarithm : {math.e:.6f}")
 
 
 if __name__ == "__main__":

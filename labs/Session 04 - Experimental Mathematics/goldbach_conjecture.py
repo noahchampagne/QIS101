@@ -13,8 +13,8 @@ def main():
     test_limit: int = 100
 
     print(
-        f"Verifying Goldbach's conjecture "
-        f"for every even integer from 6 to {test_limit}:"
+        f"Verifying Goldbach's conjecture for every even "
+        f"integer from 6 to {test_limit} inclusive:"
     )
 
     # Use a list comprehension to generate a list of first 'n' primes

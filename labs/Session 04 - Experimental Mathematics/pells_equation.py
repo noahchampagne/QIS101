@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """pells_equation.py"""
 
-import math
-import numba as nb
+from math import floor, sqrt
+from numba import njit
 
 
-@nb.njit()
+@njit()
 def pell_solution(n: int) -> tuple[bool, int, int]:
     """
     Returns minimal positive (x,y) integer solution to
@@ -15,7 +15,7 @@ def pell_solution(n: int) -> tuple[bool, int, int]:
     while x < 70_000:
         x2 = x * x
         y = 1
-        y_max = math.floor(math.sqrt((x2 - 1) / n))
+        y_max = floor(sqrt((x2 - 1) / n))
         while y <= y_max:
             y2 = y * y
             if x2 - n * y2 == 1:

@@ -2,50 +2,48 @@
 """bubble_sort.py"""
 
 
-import time
+from random import randint, seed
+from time import process_time
 
-import numpy as np
 
-
-def bubble_sort(ary: np.ndarray):
+def bubble_sort(values: list[int]) -> list[int]:
     """Sorts the provided list in increasing order using the Bubble Sort algorithm"""
-    last_index = len(ary) - 1
+    last_index = len(values) - 1
     is_sorted = False
     while not is_sorted:
         swap_needed = False
         for i in range(last_index):
-            if ary[i] > ary[i + 1]:
-                temp = ary[i]
-                ary[i] = ary[i + 1]
-                ary[i + 1] = temp
+            if values[i] > values[i + 1]:
+                temp = values[i]
+                values[i] = values[i + 1]
+                values[i + 1] = temp
                 swap_needed = True
         if not swap_needed:
             is_sorted = True
         else:
             last_index -= 1
-    return ary
+    return values
 
 
 def main():
-    np.random.seed(2016)
+    seed(2016)
 
-    samples = np.random.randint(1, 101, 100)
-    print(f"Unsorted: {samples}\n")
+    num_samples = 10_000
 
+    print(f"Bubble Sorting {num_samples:,} random samples...")
+    samples = [randint(1, 10_000) for _ in range(num_samples)]
+
+    print("UNSORTED")
+    print(f"{samples[:10]} ... {samples[-10:]}")
+
+    start_time = process_time()
     samples = bubble_sort(samples)
-    print(f"Sorted: {samples}\n")
+    elapsed_time = process_time() - start_time
 
-    num_trials = 10_000
-    print(f"Running {num_trials:,} trials . . .")
-    start_time = time.process_time()
+    print("SORTED")
+    print(f"{samples[:10]} ... {samples[-10:]}")
 
-    for _ in range(num_trials):
-        samples = np.random.randint(1, 101, 100)
-        samples = bubble_sort(samples)
-
-    elapsed_time = time.process_time() - start_time
-
-    print(f"Total run time: {elapsed_time:.3f} s")
+    print(f"Total run time (sec): {elapsed_time:.3f}\n")
 
 
 if __name__ == "__main__":

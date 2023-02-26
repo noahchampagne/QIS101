@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-'''harmonic_series.py'''
+"""harmonic_series.py"""
 
 
-def sigma(n : int) -> float:
-    '''Calculate sum of series'''
+def sigma(n: int) -> float:
+    """Sum the reciprocal of each integer from 1 to n inclusive"""
     s = 0.0
     for k in range(1, n + 1):
         s += 1 / k

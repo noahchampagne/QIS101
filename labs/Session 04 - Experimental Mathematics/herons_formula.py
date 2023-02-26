@@ -1,24 +1,26 @@
 #!/usr/bin/env python3
-# herons_formula.py
+"""herons_formula.py"""
 
-import numpy as np
+from math import sqrt
+from random import randint
 
 
-def is_triangle(triangle):
+def is_triangle(triangle: tuple[int, int, int]) -> bool:
+    """Determine if a triangle is non-degenerate"""
     a, b, c = triangle
     return a + b > c and a + c > b and b + c > a
 
 
-def area(triangle):
+def area(triangle: tuple[int, int, int]) -> float:
+    """Returns area of a triangle given a tuple of its three side lengths"""
     a, b, c = triangle
     s = (a + b + c) / 2
-    return np.sqrt(s * (s - a) * (s - b) * (s - c))
+    return sqrt(s * (s - a) * (s - b) * (s - c))
 
 
 def main():
-    np.random.seed(2016)
     for _ in range(10):
-        while not is_triangle(t := np.random.randint(1, 100, 3)):
+        while not is_triangle(t := (randint(1, 100), randint(1, 100), randint(1, 100))):
             continue
         print(f"{t} {area(t):>9.4f}")
 

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """prime_racer3.py"""
 
-import random
-import time
 from math import sqrt
+from random import randint, seed
+from time import process_time
 
 
 def is_prime(n: int) -> bool:
@@ -17,7 +17,7 @@ def is_prime(n: int) -> bool:
 
 
 def main():
-    random.seed(2016)
+    seed(2016)
 
     num_samples, min_val, max_val = int(1e4), int(1e5), int(1e6)
 
@@ -27,11 +27,11 @@ def main():
         f"and {max_val:,} inclusive . . .",
     )
 
-    samples = [random.randint(min_val, max_val) for _ in range(num_samples)]
+    samples = [randint(min_val, max_val) for _ in range(num_samples)]
 
-    start_time = time.process_time()
+    start_time = process_time()
     num_primes = [is_prime(n) for n in samples].count(True)
-    elapsed_time = time.process_time() - start_time
+    elapsed_time = process_time() - start_time
 
     print(f"Number of primes found: {num_primes:,}")
     print(f"Total run time (sec): {elapsed_time:.3f}\n")

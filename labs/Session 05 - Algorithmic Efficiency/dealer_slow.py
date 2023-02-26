@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """dealer_slow.py"""
 
-import random
-import time
-
+from random import randint, seed
+from time import process_time
 
 suits = ["Clubs", "Diamonds", "Hearts", "Spades"]
 ranks = [
@@ -47,26 +46,26 @@ def deal_cards(deck: list[int]):
     """
     already_dealt = [False] * 52
     for card_pos, _ in enumerate(deck):
-        new_card_num = random.randint(0, 51)
+        new_card_num = randint(0, 51)
         while already_dealt[new_card_num]:
-            new_card_num = random.randint(0, 51)
+            new_card_num = randint(0, 51)
         deck[card_pos] = new_card_num
         already_dealt[new_card_num] = True
 
 
 def main():
-    random.seed(2016)
+    seed(2016)
 
     deck = init_deck()
 
     total_deals = 10_000
 
-    start_time = time.process_time()
+    start_time = process_time()
 
     for _ in range(0, total_deals):
         deal_cards(deck)
 
-    elapsed_time = time.process_time() - start_time
+    elapsed_time = process_time() - start_time
 
     display_deck(deck)
 

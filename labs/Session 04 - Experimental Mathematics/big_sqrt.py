@@ -5,7 +5,7 @@
 from mpmath import mp, mpf, nstr
 
 
-def square_root(x):
+def square_root(x: float):
     """Return square root of x using Newton's Method"""
     low_end = mpf(0.0)
     high_end = mpf(x)
@@ -33,8 +33,10 @@ def square_root(x):
 def main():
     mp.dps = 200  # dps = decimal places
 
-    x = mpf("335903513812618226222181638735285568136989476656876"
-            "15688767589021060440979380129292322236643684251591")
+    x = mpf(
+        "335903513812618226222181638735285568136989476656876"
+        "15688767589021060440979380129292322236643684251591"
+    )
 
     x_sqrt = square_root(x)
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-'''welcome.py'''
+"""welcome.py"""
 
 import os
 import sys
@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def plot(ax):
+def plot(ax: plt.Axes):
     x = np.linspace(-2, 2, 500)
     f_top = np.sqrt(1 - (np.abs(x) - 1) ** 2)
     f_bot = np.arccos(1 - np.abs(x)) - np.pi

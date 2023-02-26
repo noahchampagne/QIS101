@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-# euclid_gcd.py
+"""euclid_gcd.py"""
 
 
-def gcd(a, b):
+def gcd(a: int, b: int) -> int:
+    """Returns the greatest common divisor of a & b"""
     if a < b:
         a, b = b, a
     c = a - b

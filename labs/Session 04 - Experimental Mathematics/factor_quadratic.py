@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-# factor_quadratic.py
+"""factor_quadratic.py"""
 
 
-def factor_quadratic(J, K, L):
-    print("Given the quadratic:", end=" ")
-    print(f"{J}x^2 + {K}x + {L}")
+def factor_quadratic(J: int, K: int, L: int):
+    """Displays factors of the quadratic polynomial Jx^2 + Kx + L"""
+
+    print(f"Given the quadratic:{J}x^2 + {K}x + {L}")
 
     for a in range(1, J + 1):
         if J % a == 0:

@@ -3,7 +3,7 @@
 
 
 def square_root(x: float) -> float:
-    """Return square root of x using Newton's Method"""
+    """Returns square root of x using Newton's Method"""
     low_end = 0.0
     high_end = x
 

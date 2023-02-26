@@ -139,6 +139,8 @@
             "sympy",
             "textcoords",
             "ticklabels",
+            "timsort",
+            "Timsorting",
             "tolist",
             "toolkits",
             "totient",
@@ -183,7 +185,7 @@
         "python.linting.mypyEnabled": true,
         "python.linting.enabled": true,
         "python.linting.pylintArgs": [
-            "--good-names=a, b, c, d, i, j, k, n, x, x1, x2, y, y1, y2, z, z1, z2, r, s, t, ax, gs",
+            "--good-names=a, b, c, d, e, f, g, h, i, j, k, n, r, s, t, u, v, x, y, z, x1, x2, y1, y2, z1, z2, ax, gs",
             "--disable=C0111"
         ]
     },

@@ -1,16 +1,20 @@
 #!/usr/bin/env python3
-# euler_line.py
+# pylint: disable=global-statement
+# pylint: disable=invalid-name
+"""euler_line.py"""
 
-import numpy as np
-import matplotlib.pyplot as plt
-import sys
 import os
+import sys
+
+import matplotlib.pyplot as plt
+import numpy as np
 
 # Initialize global variables
 ptA, ptB, ptC = np.empty(0), np.empty(0), np.empty(0)
 rlAB, rlAC, rlBC = np.empty(0), np.empty(0), np.empty(0)
 ptOrtho, ptCircum = np.empty(0), np.empty(0)
-prng_seed = 0
+prng_seed = 2017
+# prng_seed = 2018
 
 
 def radline_y(rl, x):
@@ -235,15 +239,15 @@ def plot_incenter(ax):
     )
 
 
-def plot(ax):
+def plot(ax: plt.Axes):
     plot_triangle(ax)
     plot_circumcenter(ax)
     plot_orthocenter(ax)
     plot_euler_Line(ax)
 
-    # Note: the triangle incenter is falls on the
-    # Euler line if and only if the triangle is isosceles
-    # plot_incenter(ax)
+    # Note: the triangle incenter is falls on the Euler Line
+    # if and only if the triangle is isosceles
+    plot_incenter(ax)
 
     ax.set_title(f"Euler Line (seed={prng_seed})")
     ax.set_xlabel("x")
@@ -256,13 +260,7 @@ def plot(ax):
 
 
 def main():
-    seeds = (2017, 2018, 2020, 2021)
-    seeds_index = 0
-
-    global prng_seed
-    prng_seed = seeds[seeds_index]
     np.random.seed(prng_seed)
-
     fig = plt.figure(os.path.basename(sys.argv[0]))
     gs = fig.add_gridspec(1, 1)
     ax = fig.add_subplot(gs[0, 0])

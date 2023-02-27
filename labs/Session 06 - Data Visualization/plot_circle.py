@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
-# plot_circle.py
+"""plot_circle.py"""
+
+import os
+import sys
 
 import matplotlib.pyplot as plt
 import numpy as np
-import sys
-import os
 
 
-def plot(ax):
+def plot(ax: plt.Axes):
+    """Plot a circle of radius 250"""
     radius = 250
     theta = np.linspace(0, 2 * np.pi, 1000)
+
+    # Polar to Cartesian coordinate conversion using vectorized operations
     x = radius * np.cos(theta)
     y = radius * np.sin(theta)
 
@@ -29,10 +33,8 @@ def plot(ax):
 def main():
     fig = plt.figure(os.path.basename(sys.argv[0]))
     gs = fig.add_gridspec(1, 1)
-
     ax = fig.add_subplot(gs[0, 0])
     plot(ax)
-
     plt.show()
 
 

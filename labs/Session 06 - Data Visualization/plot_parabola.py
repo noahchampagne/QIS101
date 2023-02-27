@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
-# plot_parabola.py
+"""plot_parabola.py"""
+
+import os
+import sys
 
 import matplotlib.pyplot as plt
 import numpy as np
-import sys
-import os
 
 
-def plot(ax):
+def plot(ax: plt.Axes):
+    """Plot y = x^2 + 1 over the domain [-6, 6]"""
     x = np.linspace(-4, 5, 100)
     y = np.power(x, 2) + 1
 
@@ -19,7 +21,7 @@ def plot(ax):
     ax.set_xlabel("x")
     ax.set_ylabel("y")
 
-    # Center the graph on appropriate range
+    # Center the graph over an appropriate domain
     ax.set_xlim(-6, 6)
     ax.set_ylim(-3, 30)
 
@@ -32,10 +34,8 @@ def plot(ax):
 def main():
     fig = plt.figure(os.path.basename(sys.argv[0]))
     gs = fig.add_gridspec(1, 1)
-
     ax = fig.add_subplot(gs[0, 0])
     plot(ax)
-
     plt.show()
 
 

@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-# plot_multigraphs.py
+"""plot_multigraphs.py"""
+
+import os
+import sys
 
 import matplotlib.pyplot as plt
-import sys
-import os
-
 import plot_parabola
 import plot_polynomial
 import plot_rings

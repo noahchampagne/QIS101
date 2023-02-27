@@ -5,13 +5,12 @@ import os
 import sys
 
 import matplotlib.pyplot as plt
-import numba
+from numba import njit
 import numpy as np
-
 from matplotlib.ticker import AutoMinorLocator
 
 
-@numba.njit
+@njit
 def stop_time(n: int) -> int:
     """Return the Collatz stopping time for the given integer"""
     counter = 0
@@ -24,8 +23,8 @@ def stop_time(n: int) -> int:
     return counter
 
 
-@numba.njit
-def stop_times(max_n):
+@njit
+def stop_times(max_n) -> np.ndarray:
     """Returns an array of the Collatz stopping times each integer in the given range"""
     y = np.zeros(max_n, dtype=np.int64)
     for i in range(max_n):
@@ -56,10 +55,8 @@ def plot(ax: plt.Axes):
 def main():
     fig = plt.figure(os.path.basename(sys.argv[0]))
     gs = fig.add_gridspec(1, 1)
-
     ax = fig.add_subplot(gs[0, 0])
     plot(ax)
-
     plt.show()
 
 

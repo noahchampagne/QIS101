@@ -24,6 +24,7 @@ pip install mypy
 pip install autopep8
 pip install black
 pip install isort
+pip install ruff
 pip install websockets
 pip install requests
 pip install pyserial
@@ -53,6 +54,7 @@ code --install-extension james-yu.latex-workshop
 code --install-extension cschlosser.doxdocgen
 code --install-extension redhat.vscode-yaml
 code --install-extension eamodio.gitlens
+code --install-extension charliermarsh.ruff
 Write-Output 'y' | jupyter lab --generate-config
 Write-Output 'c.ServerApp.use_redirect_file = False' >> $HOME/.jupyter/jupyter_lab_config.py
 jupyter nbextension enable --py --sys-prefix widgetsnbextension

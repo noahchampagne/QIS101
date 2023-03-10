@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # pachinko_normal.py
 
-import matplotlib.pyplot as plt
-from matplotlib.ticker import MultipleLocator
-import numpy as np
-import scipy.stats as stats
-from numba import jit
 import os
 import sys
+
+import matplotlib.pyplot as plt
+import numpy as np
+import scipy.stats as stats
+from numba import njit
 
 
 def stegun_normal(mean, std_dev):
@@ -21,7 +21,7 @@ def stegun_normal(mean, std_dev):
     return x * std_dev + mean
 
 
-@jit(nopython=True)
+@njit
 def pachinko_normal(num_balls, num_levels):
     np.random.seed(2016)
     balls = np.zeros(num_balls, dtype=np.int32)
@@ -56,7 +56,7 @@ def plot(ax):
     ax.plot(norm_x, norm_y, color="red", linewidth=2, label="Normal")
 
     ax.set_title(
-        f"Pachinko vs. Normal PDF ({num_levels:,} levels : " f"{num_balls:,} balls)"
+        f"Pachinko vs. Normal PDF ({num_levels:,} levels : {num_balls:,} balls)"
     )
     ax.set_xlabel("Slot Number")
     ax.set_ylabel("Probability")

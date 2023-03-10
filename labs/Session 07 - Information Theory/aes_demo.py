@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 # aes_demo.py
 
-import aes
 import os
+
+import aes
 
 
 def main():

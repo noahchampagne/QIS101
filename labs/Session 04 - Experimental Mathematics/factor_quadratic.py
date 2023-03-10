@@ -15,7 +15,7 @@ def factor_quadratic(J: int, K: int, L: int):
                     d = L // b
                     if a * d + b * c == K:
                         print("The factors are:", end=" ")
-                        print(f"({a}x + {b})" f"({c}x + {d})")
+                        print(f"({a}x + {b})({c}x + {d})")
 
 
 def main():

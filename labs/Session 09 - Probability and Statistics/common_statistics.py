@@ -1,28 +1,24 @@
 #!/usr/bin/env python3
 # common_statistics.py
 
-import numpy as np
 import statistics
 from collections import Counter
 
+import numpy as np
 
-def mean(samples):
+
+def mean(samples:np.ndarray)->float:
     return np.sum(samples) / samples.size
 
 
-def median(samples):
+def median(samples:np.ndarray)->float:
     s = np.sort(samples)
     i = s.size // 2
-    if s.size % 2 == 1:
-        # Use middle element if length is odd
-        m = s[i]
-    else:
-        # Use mean of middle two items if length is even
-        m = (s[i - 1] + s[i]) / 2
+    m = s[i] if s.size % 2 == 1 else (s[i - 1] + s[i]) / 2
     return m
 
 
-def mode(samples):
+def mode(samples: np.ndarray) -> list[float]:
     # Create a dictionary to tally the occurrence of each value
     count = Counter(sorted(samples))
     # Find the maximum count of all keys (samples)
@@ -32,7 +28,7 @@ def mode(samples):
     return m
 
 
-def pop_variance(samples):
+def pop_variance(samples: np.ndarray) -> float:
     m = mean(samples)
     # Numpy n-dimensional arrays are inherently vectorized
     # so element-level arithmetic can be expressed at the array-level
@@ -44,7 +40,7 @@ def pop_variance(samples):
 def main():
     np.random.seed(2021)
     samples = np.random.randint(0, 100, 30)
-    print(f"Samples      = {samples.tolist()}")    
+    print(f"Samples      = {samples.tolist()}")
     print()
 
     print(f"Mean         = {mean(samples):.4f}")

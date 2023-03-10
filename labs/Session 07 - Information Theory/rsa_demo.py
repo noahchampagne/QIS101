@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 # rsa_demo.py
 
-import numpy as np
-
-
 def extended_euclidean(a, b):
     swapped = False
     if a < b:

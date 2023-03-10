@@ -1,24 +1,25 @@
 #!/usr/bin/env python3
 # bessel_correction.py
 
-import numpy as np
-from numpy.random import seed, randint, choice
-import matplotlib.pyplot as plt
-from matplotlib.ticker import MultipleLocator
-from numba import jit
-import pickle
 import os
+import pickle
 import sys
 
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.ticker import MultipleLocator
+from numba import njit
+from numpy.random import choice, randint, seed
 
-@jit(nopython=True)
+
+@njit
 def get_bsv(arr):
     mean = np.mean(arr)
     bsv = np.sum((arr - mean) ** 2) / len(arr)
     return bsv
 
 
-@jit(nopython=True)
+@njit
 def get_sample_bsv(population, sample_size):
     num_trials = 20_000
     total_bsv = 0
@@ -29,39 +30,37 @@ def get_sample_bsv(population, sample_size):
     return mean_bsv
 
 
-def run_trials():
+def run_trials() -> list[tuple]:
     seed(2021)
     population = randint(0, 1000, 7000)
     pop_var = get_bsv(population)
 
     max_sample_size = 20
 
-    print(
-        f"{'Sample Size':^11}" f"{'Sample Var':^21}" f"{'Pop Var':^18}" f"{'Ratio':^8}"
-    )
+    print(f"{'Sample Size':^11}{'Sample Var':^21}{'Pop Var':^18}{'Ratio':^8}")
 
-    results = []
+    results: list[tuple] = []
     for sample_size in range(2, max_sample_size + 1):
         sample_bsv = get_sample_bsv(population, sample_size)
         ratio = sample_bsv / pop_var
         results.append((sample_size, sample_bsv, pop_var, ratio))
         print(
-            f"{sample_size:^11}" f"{sample_bsv:>16,.4f}" f"{pop_var:>18,.4f}",
+            f"{sample_size:^11}{sample_bsv:>16,.4f}{pop_var:>18,.4f}",
             f"{ratio:^15.4f}",
         )
     return results
 
 
-def plot_ratio(ax, results):
-    x = [r[0] for r in results]
-    y = [r[3] for r in results]
-    ax.plot(x, y, label="BSV/PV")
+def plot_ratio(ax: plt.Axes, results: list[tuple]):
+    x1 = [r[0] for r in results]
+    y1 = [r[3] for r in results]
+    ax.plot(x1, y1, label="BSV/PV")
 
-    x = np.linspace(2, 20, endpoint=True)
-    y = (x - 1) / x
-    ax.plot(x, y, label=r"$\frac{n-1}{n}$")
+    x2 = np.linspace(2, 20, endpoint=True)
+    y2 = (x2 - 1) / x2
+    ax.plot(x2, y2, label=r"$\frac{n-1}{n}$")
 
-    ax.set_title("BSV over PV compared to Hyperbola (n-1) over n")
+    ax.set_title(r"BSV over PV compared to Hyperbola $\frac{(n-1)}{n}$")
     ax.set_xlabel("Sample Size")
     ax.set_ylabel("Biased Sample Var / Population Var")
     ax.xaxis.set_major_locator(MultipleLocator(1))
@@ -69,7 +68,7 @@ def plot_ratio(ax, results):
     ax.legend()
 
 
-def plot_ubsv(ax, results):
+def plot_ubsv(ax: plt.Axes, results: list[tuple]):
     x = [r[0] for r in results]
     y = [r[2] for r in results]
     ax.plot(x, y, label="Pop Var")
@@ -77,7 +76,7 @@ def plot_ubsv(ax, results):
     y = [r[1] for r in results]
     ax.plot(x, y, label="BSV")
 
-    for i, v in enumerate(y):
+    for i, _ in enumerate(y):
         y[i] = y[i] * x[i] / (x[i] - 1)
     ax.plot(x, y, label="UBSV")
 
@@ -113,7 +112,7 @@ def main():
             sample_size, sample_bsv, pop_var, _ = r
             ubsv = sample_bsv * sample_size / (sample_size - 1)
             print(
-                f"{sample_size:^11}" f"{sample_bsv:>16,.4f}" f"{pop_var:>18,.4f}",
+                f"{sample_size:^11}{sample_bsv:>16,.4f}{pop_var:>18,.4f}",
                 f"{ubsv:^18,.4f}",
             )
 

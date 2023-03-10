@@ -1,36 +1,43 @@
 #!/usr/bin/env python3
 # k_means.py
 
-import numpy as np
-import matplotlib.pyplot as plt
-import sys
 import os
+import sys
+
+import matplotlib.pyplot as plt
+import numpy as np
 
 K_CLUSTERS = 3
 INCLUDE_OUTLIERS = False
 MEAN_MULTIPLE = 0
 
+COLMAP = ("red", "blue", "green", "purple", "yellow", "orange")
+
 
 class DataPoint:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-        self.cluster = None
+    def __init__(self, x: float, y: float):
+        self.x: float = x
+        self.y: float = y
+        self.cluster: Cluster = Cluster(-1)
+
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y
 
     def __repr__(self):
         return f"DataPoint({self.x}, {self.y})"
 
 
 class Cluster:
-    def __init__(self, index):
-        self.index = index
-        self.x = 0.0
-        self.y = 0.0
-        self.population = 0
-        self.mean_distance = 0.0
+    def __init__(self, index: int):
+        self.index: int = index
+        self.x: float = 0.0
+        self.y: float = 0.0
+        self.population: int = 0
+        self.mean_distance: float = 0.0
+        self.color: str = COLMAP[index]
 
-        colmap = ("red", "blue", "green", "purple", "yellow", "orange")
-        self.color = colmap[index]
+    def __eq__(self, other):
+        return self.index == other.index
 
     def __repr__(self):
         return f"Cluster({self.index})"
@@ -79,18 +86,17 @@ def reassign(points, clusters):
     # Phase II: Assign data points to nearest cluster
     for p in points:
         dist_min = sys.float_info.max
-        nearest_cluster = None
+        nearest_cluster = Cluster(-1)
         for c in clusters:
             dist = np.hypot(p.x - c.x, p.y - c.y)
             if dist < dist_min:
                 dist_min = dist
                 nearest_cluster = c
-        if nearest_cluster != p.cluster:
-            if p.cluster.population > 1:
-                p.cluster.population -= 1
-                p.cluster = nearest_cluster
-                p.cluster.population += 1
-                converged = False
+        if nearest_cluster != p.cluster and p.cluster.population > 1:
+            p.cluster.population -= 1
+            p.cluster = nearest_cluster
+            p.cluster.population += 1
+            converged = False
 
     # Phase III - Evict any point too far away from its cluster's center
     if converged and MEAN_MULTIPLE > 0:
@@ -149,7 +155,7 @@ def main():
     gs = fig.add_gridspec(1, 1)
     ax = fig.add_subplot(gs[0, 0])
 
-    key_press_event = fig.canvas.mpl_connect(
+    fig.canvas.mpl_connect(
         "key_press_event", lambda event: on_key_press(event, ax, points, clusters)
     )
 

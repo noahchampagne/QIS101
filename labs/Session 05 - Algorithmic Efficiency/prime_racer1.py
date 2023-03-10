@@ -7,10 +7,7 @@ from time import process_time
 
 def is_prime(n: int) -> bool:
     """Returns True/False if the given number is prime"""
-    for factor in range(2, n):
-        if n % factor == 0:
-            return False
-    return True
+    return all(n % factor != 0 for factor in range(2, n))
 
 
 def main():

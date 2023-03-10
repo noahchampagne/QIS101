@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 # birthday_paradox.py
 
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.ticker import MultipleLocator
-from numba import jit
 import os
 import sys
 
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.ticker import MultipleLocator
+from numba import njit
 
-@jit(nopython=True)
+
+@njit
 def shared_birthdays(class_size):
     birthdays = np.random.randint(0, 365, class_size)
     for i in range(birthdays.size - 2):
@@ -19,7 +20,7 @@ def shared_birthdays(class_size):
     return False
 
 
-@jit(nopython=True)
+@njit
 def calc_probabilities(num_classes, max_class_size):
     prob = np.zeros(max_class_size)
     for class_size in range(max_class_size):
@@ -69,7 +70,7 @@ def plot(ax):
         f"Min Class Size = {min_class_size}",
         xy=(min_class_size, p),
         xytext=(28, 0.45),
-        arrowprops=dict(facecolor="black", shrink=0.05),
+        arrowprops={"facecolor": "black", "shrink": 0.05},
     )
 
 

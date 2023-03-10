@@ -10,10 +10,7 @@ def is_prime(n: int) -> bool:
     """Returns True/False if the given number is prime"""
     if n % 2 == 0:
         return False
-    for factor in range(3, int(sqrt(n)), 2):
-        if n % factor == 0:
-            return False
-    return True
+    return all(n % factor != 0 for factor in range(3, int(sqrt(n)), 2))
 
 
 def main():

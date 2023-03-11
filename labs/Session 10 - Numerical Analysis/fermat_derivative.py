@@ -1,30 +1,40 @@
 #!/usr/bin/env python3
-# fermat_derivative.py
+"""fermat_derivative.py"""
 
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.ticker import MultipleLocator
-import sys
+from __future__ import annotations
+
 import os
+import sys
+import typing
+
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.ticker import MultipleLocator
+
+if typing.TYPE_CHECKING:
+    import numpy.typing as npt
+    from matplotlib.figure import Figure
+    from matplotlib.gridspec import GridSpec
+    from matplotlib.axes import Axes
 
 
-def f(x):
+def f(x: npt.NDArray[np.float_]) -> npt.NDArray[np.float_]:
     return np.cos(x)
 
 
-def f_prime(x, h):
+def f_prime(x: npt.NDArray[np.float_], h: float) -> npt.NDArray[np.float_]:
     return (f(x + h) - f(x)) / h
 
 
-def plot(ax):
-    a = -4 * np.pi
-    b = 4 * np.pi
-    n = 500
+def plot(ax: plt.Axes) -> None:
+    a: float = -4 * np.pi
+    b: float = 4 * np.pi
+    n: int = 500
 
-    x = np.linspace(a, b, n)
+    x: npt.NDArray[np.float_] = np.linspace(a, b, n, dtype=float)
 
-    y = f(x)
-    y_prime = f_prime(x, (b - a) / n)
+    y: npt.NDArray[np.float_] = f(x)
+    y_prime: npt.NDArray[np.float_] = f_prime(x, (b - a) / n)
 
     ax.plot(x, y, label="y")
     ax.plot(x, y_prime, label=r"$\frac{dy}{dx}$")
@@ -41,13 +51,11 @@ def plot(ax):
     ax.axvline(0, color="black", linestyle="-")
 
 
-def main():
-    fig = plt.figure(os.path.basename(sys.argv[0]))
-    gs = fig.add_gridspec(1, 1)
-
-    ax = fig.add_subplot(gs[0, 0])
+def main() -> None:
+    fig: Figure = plt.figure(os.path.basename(sys.argv[0]))
+    gs: GridSpec = fig.add_gridspec(1, 1)
+    ax: Axes = fig.add_subplot(gs[0, 0])
     plot(ax)
-
     plt.show()
 
 

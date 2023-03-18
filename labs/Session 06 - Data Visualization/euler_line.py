@@ -1,245 +1,282 @@
 #!/usr/bin/env python3
-# pylint: disable=global-statement
-# pylint: disable=invalid-name
 """euler_line.py"""
+
+from __future__ import annotations
 
 import os
 import sys
+import typing
+from dataclasses import dataclass
+from random import randint, seed
 
 import matplotlib.pyplot as plt
 import numpy as np
 
+if typing.TYPE_CHECKING:
+    from matplotlib.axes import Axes
+    from matplotlib.figure import Figure
+    from matplotlib.gridspec import GridSpec
+    from numpy.typing import NDArray
+
+
+@dataclass
+class Point2D:
+    x: float
+    y: float
+
+
+@dataclass
+class RadLine:
+    theta: float
+    d: float
+
+
 # Initialize global variables
-ptA, ptB, ptC = np.empty(0), np.empty(0), np.empty(0)
-rlAB, rlAC, rlBC = np.empty(0), np.empty(0), np.empty(0)
-ptOrtho, ptCircum = np.empty(0), np.empty(0)
-prng_seed = 2017
-# prng_seed = 2018
+ptA: Point2D = Point2D(x=0.0, y=0.0)
+ptB: Point2D = Point2D(x=0.0, y=0.0)
+ptC: Point2D = Point2D(x=0.0, y=0.0)
+ptOrtho: Point2D = Point2D(x=0.0, y=0.0)
+ptCircum: Point2D = Point2D(x=0.0, y=0.0)
+
+rlineAB: RadLine = RadLine(theta=0.0, d=0.0)
+rlineAC: RadLine = RadLine(theta=0.0, d=0.0)
+rlineBC: RadLine = RadLine(theta=0.0, d=0.0)
+
+prng_seed: int = 2018
+# prng_seed = 2019
 
 
-def radline_y(rl, x):
-    theta, d = rl
-    return (d - x * np.cos(theta)) / np.sin(theta)
+def radline_y(rline: RadLine, x: NDArray[np.float_]) -> NDArray[np.float_]:
+    return np.array(
+        (rline.d - x * np.cos(rline.theta)) / np.sin(rline.theta), np.float_
+    )
 
 
-def radline_connect(pt1, pt2):
-    x1, y1 = pt1
-    x2, y2 = pt2
+def radline_connect(pt1: Point2D, pt2: Point2D) -> RadLine:
     # Prevent divide by zero due to a vertical line
-    if y2 == y1:
+    theta: float
+    if pt2.y == pt1.y:
         theta = np.pi / 4
     else:
-        theta = np.arctan((x1 - x2) / (y2 - y1))
+        theta = np.arctan((pt1.x - pt2.x) / (pt2.y - pt1.y))
         # Ensure theta remains within the interval [0, pi)
         if theta < 0:
             theta += np.pi
-    d = x1 * np.cos(theta) + y1 * np.sin(theta)
-    return (theta, d)
+    d: float = pt1.x * np.cos(theta) + pt1.y * np.sin(theta)
+    return RadLine(theta, d)
 
 
-def radline_tangent(rl, pt):
-    theta, d = rl
+def radline_tangent(rline: RadLine, pt: Point2D) -> RadLine:
+    theta: float = rline.theta
+    d: float = rline.d
     # Rotate radon line by 90 degrees, while ensuring
     # theta remains within the interval [0, pi)
     if theta < np.pi / 2:
         theta += np.pi / 2
     else:
         theta -= np.pi / 2
-    x, y = pt
-    d = x * np.cos(theta) + y * np.sin(theta)
-    return (theta, d)
+    d = pt.x * np.cos(theta) + pt.y * np.sin(theta)
+    return RadLine(theta, d)
 
 
-def radline_intersect(rl1, rl2):
-    theta1, d1 = rl1
-    theta2, d2 = rl2
+def radline_intersect(rline1: RadLine, rline2: RadLine) -> Point2D:
+    theta1: float = rline1.theta
+    d1: float = rline1.d
+    theta2: float = rline2.theta
+    d2: float = rline2.d
     # If two radon lines have the same theta, then
     # they are parallel and can never intersect
     if theta1 == theta2:
-        return np.nan, np.nan
-    z = np.sin(theta2 - theta1)
-    x = (d1 * np.sin(theta2) - d2 * np.sin(theta1)) / z
-    y = (d2 * np.cos(theta1) - d1 * np.cos(theta2)) / z
-    return x, y
+        return Point2D(np.nan, np.nan)
+    z: float = float(np.sin(theta2 - theta1))
+    x: float = float((d1 * np.sin(theta2) - d2 * np.sin(theta1)) / z)
+    y: float = float((d2 * np.cos(theta1) - d1 * np.cos(theta2)) / z)
+    return Point2D(x, y)
 
 
-def plot_triangle(ax):
+def random_pt() -> Point2D:
+    x: int = randint(-10, 10)
+    y: int = randint(-10, 10)
+    return Point2D(x, y)
+
+
+def plot_triangle(ax: Axes) -> None:
     # Generate three random vertices
     global ptA, ptB, ptC
-    ptA = np.random.uniform(-10, 10, 2)
-    ptB = np.random.uniform(-10, 10, 2)
-    ptC = np.random.uniform(-10, 10, 2)
+    ptA = random_pt()
+    ptB = random_pt()
+    ptC = random_pt()
 
     # Formulate the radon line connecting the adjacent vertices
-    global rlAB, rlAC, rlBC
-    rlAB = radline_connect(ptA, ptB)
-    rlAC = radline_connect(ptA, ptC)
-    rlBC = radline_connect(ptB, ptC)
+    global rlineAB, rlineAC, rlineBC
+    rlineAB = radline_connect(ptA, ptB)
+    rlineAC = radline_connect(ptA, ptC)
+    rlineBC = radline_connect(ptB, ptC)
 
     # Plot the edges
-    x = np.linspace(ptA[0], ptB[0], 100)
-    ax.plot(x, radline_y(rlAB, x), color="purple", linewidth=3, label="Edges")
-    x = np.linspace(ptA[0], ptC[0], 100)
-    ax.plot(x, radline_y(rlAC, x), color="purple", linewidth=3)
-    x = np.linspace(ptB[0], ptC[0], 100)
-    ax.plot(x, radline_y(rlBC, x), color="purple", linewidth=3)
+    x: NDArray[np.float_] = np.linspace(ptA.x, ptB.x, 100, dtype=np.float_)
+    ax.plot(x, radline_y(rlineAB, x), color="purple", linewidth=3, label="Edges")
+    x = np.linspace(ptA.x, ptC.x, 100, dtype=np.float_)
+    ax.plot(x, radline_y(rlineAC, x), color="purple", linewidth=3)
+    x = np.linspace(ptB.x, ptC.x, 100, dtype=np.float_)
+    ax.plot(x, radline_y(rlineBC, x), color="purple", linewidth=3)
 
     # Plot the extended edges
     x = np.linspace(-100, 100, 100)
-    ax.plot(x, radline_y(rlAB, x), color="purple", linestyle="dotted")
-    ax.plot(x, radline_y(rlAC, x), color="purple", linestyle="dotted")
-    ax.plot(x, radline_y(rlBC, x), color="purple", linestyle="dotted")
+    ax.plot(x, radline_y(rlineAB, x), color="purple", linestyle="dotted")
+    ax.plot(x, radline_y(rlineAC, x), color="purple", linestyle="dotted")
+    ax.plot(x, radline_y(rlineBC, x), color="purple", linestyle="dotted")
 
     # Calculate the centroid, which is the mean value
     # of the cartesian coordinates of every vertex
-    ptCentroid = (ptA + ptB + ptC) / 3
+    ptCentroid: Point2D = Point2D(
+        x=(ptA.x + ptB.x + ptC.x) / 3.0, y=(ptA.y + ptB.y + ptC.y) / 3.0
+    )
 
     # Plot the centroid point
-    marker_size = 100 * ((72 / ax.figure.dpi) ** 2)
+    marker_size: float = 100 * ((72 / ax.figure.dpi) ** 2)
     ax.scatter(
-        ptCentroid[0], ptCentroid[1], color="black", s=marker_size, label="Centroid"
+        ptCentroid.x, ptCentroid.y, color="purple", s=marker_size, label="Centroid"
     )
 
 
-def plot_orthocenter(ax):
+def plot_orthocenter(ax: Axes) -> None:
     # Formulate the radon lines describing each altitude, which is a line
     # extending from each vertex that is perpendicular to the opposite edge
-    rlA_alt = radline_tangent(rlBC, ptA)
-    rlB_alt = radline_tangent(rlAC, ptB)
-    rlC_alt = radline_tangent(rlAB, ptC)
+    rlineA_alt: RadLine = radline_tangent(rlineBC, ptA)
+    rlineB_alt: RadLine = radline_tangent(rlineAC, ptB)
+    rlineC_alt: RadLine = radline_tangent(rlineAB, ptC)
 
     # Plot the altitudes
-    x = np.linspace(-100, 100, 100)
+    x: NDArray[np.float_] = np.linspace(-100, 100, 100, dtype=np.float_)
     ax.plot(
-        x, radline_y(rlA_alt, x), color="blue", linestyle="dotted", label="Altitudes"
+        x, radline_y(rlineA_alt, x), color="blue", linestyle="dotted", label="Altitudes"
     )
-    ax.plot(x, radline_y(rlB_alt, x), color="blue", linestyle="dotted")
-    ax.plot(x, radline_y(rlC_alt, x), color="blue", linestyle="dotted")
+    ax.plot(x, radline_y(rlineB_alt, x), color="blue", linestyle="dotted")
+    ax.plot(x, radline_y(rlineC_alt, x), color="blue", linestyle="dotted")
 
     # Calculate the orthocenter which is the intersection of the altitudes
     global ptOrtho
-    ptOrtho = radline_intersect(rlA_alt, rlB_alt)
-    marker_size = 100 * ((72 / ax.figure.dpi) ** 2)
+    ptOrtho = radline_intersect(rlineA_alt, rlineB_alt)
+    marker_size: float = 100 * ((72 / ax.figure.dpi) ** 2)
 
     # Plot the orthocenter point
-    ax.scatter(ptOrtho[0], ptOrtho[1], color="blue", s=marker_size, label="Orthocenter")
+    ax.scatter(ptOrtho.x, ptOrtho.y, color="blue", s=marker_size, label="Orthocenter")
 
 
-def plot_circumcenter(ax):
+def plot_circumcenter(ax: Axes) -> None:
     # Calculate the midpoints of each edge
-    ptAB_mid = (ptA + ptB) / 2
-    ptAC_mid = (ptA + ptC) / 2
-    ptBC_mid = (ptB + ptC) / 2
+    ptAB_mid: Point2D = Point2D(x=(ptA.x + ptB.x) / 2.0, y=(ptA.y + ptB.y) / 2.0)
+    ptAC_mid: Point2D = Point2D(x=(ptA.x + ptC.x) / 2.0, y=(ptA.y + ptC.y) / 2.0)
+    ptBC_mid: Point2D = Point2D(x=(ptB.x + ptC.x) / 2.0, y=(ptB.y + ptC.y) / 2.0)
 
     # Calculate the radon line that is the
     # perpendicular bisector of each edge
-    rlA_bis = radline_tangent(rlBC, ptBC_mid)
-    rlB_bis = radline_tangent(rlAC, ptAC_mid)
-    rlC_bis = radline_tangent(rlAB, ptAB_mid)
+    rlineA_bis: RadLine = radline_tangent(rlineBC, ptBC_mid)
+    rlineB_bis: RadLine = radline_tangent(rlineAC, ptAC_mid)
+    rlineC_bis: RadLine = radline_tangent(rlineAB, ptAB_mid)
 
     # Plot the perpendicular bisectors
-    x = np.linspace(-100, 100, 100)
+    x: NDArray[np.float_] = np.linspace(-100, 100, 100, dtype=np.float_)
     ax.plot(
         x,
-        radline_y(rlA_bis, x),
+        radline_y(rlineA_bis, x),
         color="green",
         linestyle="dotted",
         label="Perpendicular Bisectors",
     )
-    ax.plot(x, radline_y(rlB_bis, x), color="green", linestyle="dotted")
-    ax.plot(x, radline_y(rlC_bis, x), color="green", linestyle="dotted")
+    ax.plot(x, radline_y(rlineB_bis, x), color="green", linestyle="dotted")
+    ax.plot(x, radline_y(rlineC_bis, x), color="green", linestyle="dotted")
 
     # Calculate the circumcenter, which is the intersection
     # of the perpendicular bisectors for each edge
     global ptCircum
-    ptCircum = radline_intersect(rlA_bis, rlB_bis)
+    ptCircum = radline_intersect(rlineA_bis, rlineB_bis)
 
     # Plot the circumcenter point
-    marker_size = 100 * ((72 / ax.figure.dpi) ** 2)
+    marker_size: float = 100 * ((72 / ax.figure.dpi) ** 2)
     ax.scatter(
-        ptCircum[0], ptCircum[1], color="green", s=marker_size, label="Circumcenter"
+        ptCircum.x, ptCircum.y, color="green", s=marker_size, label="Circumcenter"
     )
 
 
-def plot_euler_Line(ax):
+def plot_euler_Line(ax: Axes) -> None:
     # Plot the Euler line, which intersects the orthocenter,
     # the circumcenter, and the centroid of every triangle
-    x = np.linspace(-100, 100, 100)
-    rlEuler = radline_connect(ptOrtho, ptCircum)
-    ax.plot(x, radline_y(rlEuler, x), color="black", linewidth=2, label="Euler line")
+    x: NDArray[np.float_] = np.linspace(-100, 100, 100, dtype=np.float_)
+    rlineEuler: RadLine = radline_connect(ptOrtho, ptCircum)
+    ax.plot(x, radline_y(rlineEuler, x), color="black", linewidth=3, label="Euler line")
 
 
-def plot_incenter(ax):
+def plot_incenter(ax: Axes) -> None:
     # Find the length of each edge
-    dAB = np.sqrt((ptA[0] - ptB[0]) ** 2 + (ptA[1] - ptB[1]) ** 2)
-    dAC = np.sqrt((ptA[0] - ptC[0]) ** 2 + (ptA[1] - ptC[1]) ** 2)
-    dBC = np.sqrt((ptB[0] - ptC[0]) ** 2 + (ptB[1] - ptC[1]) ** 2)
+    dAB: float = np.sqrt((ptA.x - ptB.x) ** 2 + (ptA.y - ptB.y) ** 2)
+    dAC: float = np.sqrt((ptA.x - ptC.x) ** 2 + (ptA.y - ptC.y) ** 2)
+    dBC: float = np.sqrt((ptB.x - ptC.x) ** 2 + (ptB.y - ptC.y) ** 2)
 
     # Assume the angle bisectors are the sample mean of each adjacent edge
-    theta_bis_a = (rlAB[0] + rlAC[0]) / 2
-    d_bis_a = ptA[0] * np.cos(theta_bis_a) + ptA[1] * np.sin(theta_bis_a)
-    rlA_inctr = theta_bis_a, d_bis_a
+    theta_bis_a: float = (rlineAB.theta + rlineAC.theta) / 2.0
+    d_bis_a: float = ptA.x * np.cos(theta_bis_a) + ptA.y * np.sin(theta_bis_a)
+    rlineA_inctr: RadLine = RadLine(theta_bis_a, d_bis_a)
 
-    theta_bis_b = (rlAB[0] + rlBC[0]) / 2
-    d_bis_b = ptB[0] * np.cos(theta_bis_b) + ptB[1] * np.sin(theta_bis_b)
-    rlB_inctr = theta_bis_b, d_bis_b
+    theta_bis_b: float = (rlineAB.theta + rlineBC.theta) / 2.0
+    d_bis_b: float = ptB.x * np.cos(theta_bis_b) + ptB.y * np.sin(theta_bis_b)
+    rlineB_inctr: RadLine = RadLine(theta_bis_b, d_bis_b)
 
-    theta_bis_c = (rlAC[0] + rlBC[0]) / 2
-    d_bis_c = ptC[0] * np.cos(theta_bis_c) + ptC[1] * np.sin(theta_bis_c)
-    rlC_inctr = theta_bis_c, d_bis_c
+    theta_bis_c: float = (rlineAC.theta + rlineBC.theta) / 2.0
+    d_bis_c: float = ptC.x * np.cos(theta_bis_c) + ptC.y * np.sin(theta_bis_c)
+    rlineC_inctr: RadLine = RadLine(theta_bis_c, d_bis_c)
 
     # Find the points where the angle bisectors intersect
-    ptAB = radline_intersect(rlA_inctr, rlB_inctr)
-    ptAC = radline_intersect(rlA_inctr, rlC_inctr)
-    ptBC = radline_intersect(rlB_inctr, rlC_inctr)
+    ptAB: Point2D = radline_intersect(rlineA_inctr, rlineB_inctr)
+    ptAC: Point2D = radline_intersect(rlineA_inctr, rlineC_inctr)
+    ptBC: Point2D = radline_intersect(rlineB_inctr, rlineC_inctr)
 
     # Find the distance between each vertex and the intersection point of
     # its own angle bisector and the angle bisector of its adjacent vertices
-    dA_AB = np.sqrt((ptA[0] - ptAB[0]) ** 2 + (ptA[1] - ptAB[1]) ** 2)
-    dB_AB = np.sqrt((ptB[0] - ptAB[0]) ** 2 + (ptB[1] - ptAB[1]) ** 2)
-    dA_AC = np.sqrt((ptA[0] - ptAC[0]) ** 2 + (ptA[1] - ptAC[1]) ** 2)
-    dC_AC = np.sqrt((ptC[0] - ptAC[0]) ** 2 + (ptC[1] - ptAC[1]) ** 2)
-    dB_BC = np.sqrt((ptB[0] - ptBC[0]) ** 2 + (ptB[1] - ptBC[1]) ** 2)
-    dC_BC = np.sqrt((ptC[0] - ptBC[0]) ** 2 + (ptC[1] - ptBC[1]) ** 2)
+    dA_AB: float = np.sqrt((ptA.x - ptAB.x) ** 2 + (ptA.y - ptAB.y) ** 2)
+    dB_AB: float = np.sqrt((ptB.x - ptAB.x) ** 2 + (ptB.y - ptAB.y) ** 2)
+    dA_AC: float = np.sqrt((ptA.x - ptAC.x) ** 2 + (ptA.y - ptAC.y) ** 2)
+    dC_AC: float = np.sqrt((ptC.x - ptAC.x) ** 2 + (ptC.y - ptAC.y) ** 2)
+    dB_BC: float = np.sqrt((ptB.x - ptBC.x) ** 2 + (ptB.y - ptBC.y) ** 2)
+    dC_BC: float = np.sqrt((ptC.x - ptBC.x) ** 2 + (ptC.y - ptBC.y) ** 2)
 
     # Rotate by 90 degrees any bisector which results in bisector intersection
     # points that fall outside the triangle, as the incenter must be in the triangle
     # If a rotation is necessary, recalculate the Radon Line for that bisector
     if dB_BC <= dBC and dC_BC <= dBC:
         theta_bis_a -= np.pi / 2
-        d_bis_a = ptA[0] * np.cos(theta_bis_a) + ptA[1] * np.sin(theta_bis_a)
-        rlA_inctr = theta_bis_a, d_bis_a
+        d_bis_a = ptA.x * np.cos(theta_bis_a) + ptA.y * np.sin(theta_bis_a)
+        rlineA_inctr = RadLine(theta_bis_a, d_bis_a)
     elif dA_AC <= dAC and dC_AC < dAC:
         theta_bis_b -= np.pi / 2
-        d_bis_b = ptB[0] * np.cos(theta_bis_b) + ptB[1] * np.sin(theta_bis_b)
-        rlB_inctr = theta_bis_b, d_bis_b
+        d_bis_b = ptB.x * np.cos(theta_bis_b) + ptB.y * np.sin(theta_bis_b)
+        rlineB_inctr = RadLine(theta_bis_b, d_bis_b)
     elif dA_AB < dAB and dB_AB < dAB:
         theta_bis_c -= np.pi / 2
-        d_bis_c = ptC[0] * np.cos(theta_bis_c) + ptC[1] * np.sin(theta_bis_c)
-        rlC_inctr = theta_bis_c, d_bis_c
+        d_bis_c = ptC.x * np.cos(theta_bis_c) + ptC.y * np.sin(theta_bis_c)
+        rlineC_inctr = RadLine(theta_bis_c, d_bis_c)
 
     # Plot the angle bisectors of each vertex
-    x = np.linspace(-100, 100, 100)
+    x: NDArray[np.float_] = np.linspace(-100, 100, 100, dtype=np.float_)
     ax.plot(
         x,
-        radline_y(rlA_inctr, x),
+        radline_y(rlineA_inctr, x),
         color="red",
         label="Angle Bisectors",
         linestyle="dotted",
     )
-    ax.plot(x, radline_y(rlB_inctr, x), color="red", linestyle="dotted")
-    ax.plot(x, radline_y(rlC_inctr, x), color="red", linestyle="dotted")
+    ax.plot(x, radline_y(rlineB_inctr, x), color="red", linestyle="dotted")
+    ax.plot(x, radline_y(rlineC_inctr, x), color="red", linestyle="dotted")
 
     # Plot the incenter, which is the intersection of the
     # angle bisectors of every vertex
-    ptIncenter = radline_intersect(rlA_inctr, rlB_inctr)
-    marker_size = 100 * ((72 / ax.figure.dpi) ** 2)
-    ax.scatter(
-        ptIncenter[0], ptIncenter[1], color="red", s=marker_size, label="Incenter"
-    )
+    ptIncenter: Point2D = radline_intersect(rlineA_inctr, rlineB_inctr)
+    marker_size: float = 100 * ((72 / ax.figure.dpi) ** 2)
+    ax.scatter(ptIncenter.x, ptIncenter.y, color="red", s=marker_size, label="Incenter")
 
 
-def plot(ax: plt.Axes):
+def plot(ax: plt.Axes) -> None:
     plot_triangle(ax)
     plot_circumcenter(ax)
     plot_orthocenter(ax)
@@ -247,7 +284,7 @@ def plot(ax: plt.Axes):
 
     # Note: the triangle incenter is falls on the Euler Line
     # if and only if the triangle is isosceles
-    plot_incenter(ax)
+    # plot_incenter(ax)
 
     ax.set_title(f"Euler Line (seed={prng_seed})")
     ax.set_xlabel("x")
@@ -259,11 +296,11 @@ def plot(ax: plt.Axes):
     ax.grid()
 
 
-def main():
-    np.random.seed(prng_seed)
-    fig = plt.figure(os.path.basename(sys.argv[0]))
-    gs = fig.add_gridspec(1, 1)
-    ax = fig.add_subplot(gs[0, 0])
+def main() -> None:
+    seed(prng_seed)
+    fig: Figure = plt.figure(os.path.basename(sys.argv[0]))
+    gs: GridSpec = fig.add_gridspec(1, 1)
+    ax: Axes = fig.add_subplot(gs[0, 0])
     plot(ax)
     plt.show()
 

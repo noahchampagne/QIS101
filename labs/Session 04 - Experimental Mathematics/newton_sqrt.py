@@ -4,13 +4,13 @@
 
 def square_root(x: float) -> float:
     """Returns square root of x using Newton's Method"""
-    low_end = 0.0
-    high_end = x
+    low_end: float = 0.0
+    high_end: float = x
 
-    estimate = (high_end + low_end) / 2
-    estimate_squared = estimate * estimate
+    estimate: float = (high_end + low_end) / 2
+    estimate_squared: float = estimate * estimate
 
-    epsilon = 1e-14
+    epsilon: float = 1e-14
 
     while abs(estimate_squared - x) > epsilon:
         if estimate_squared > x:
@@ -27,10 +27,10 @@ def square_root(x: float) -> float:
     return estimate
 
 
-def main():
-    x = 168923
+def main() -> None:
+    x: float = 168923
 
-    x_sqrt = square_root(x)
+    x_sqrt: float = square_root(x)
 
     print(f"Estimated square root of \n {x}")
     print(f"is \n {x_sqrt:.14f}")

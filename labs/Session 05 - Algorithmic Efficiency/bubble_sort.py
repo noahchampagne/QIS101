@@ -8,15 +8,14 @@ from time import process_time
 
 def bubble_sort(values: list[int]) -> list[int]:
     """Sorts the provided list in increasing order using the Bubble Sort algorithm"""
-    last_index = len(values) - 1
-    is_sorted = False
+    last_index: int = len(values) - 1
+    is_sorted: bool = False
     while not is_sorted:
-        swap_needed = False
+        swap_needed: bool = False
         for i in range(last_index):
             if values[i] > values[i + 1]:
-                temp = values[i]
-                values[i] = values[i + 1]
-                values[i + 1] = temp
+                # Swap these adjacent values
+                values[i], values[i+1] = values[i+1], values[i]
                 swap_needed = True
         if not swap_needed:
             is_sorted = True
@@ -25,20 +24,20 @@ def bubble_sort(values: list[int]) -> list[int]:
     return values
 
 
-def main():
+def main() -> None:
     seed(2016)
 
-    num_samples = 10_000
+    num_samples: int = 10_000
 
     print(f"Bubble Sorting {num_samples:,} random samples...")
-    samples = [randint(1, 10_000) for _ in range(num_samples)]
+    samples: list[int] = [randint(1, 10_000) for _ in range(num_samples)]
 
     print("UNSORTED")
     print(f"{samples[:10]} ... {samples[-10:]}")
 
-    start_time = process_time()
+    start_time: float = process_time()
     samples = bubble_sort(samples)
-    elapsed_time = process_time() - start_time
+    elapsed_time:float = process_time() - start_time
 
     print("SORTED")
     print(f"{samples[:10]} ... {samples[-10:]}")

@@ -12,22 +12,24 @@ def is_prime(n: int) -> bool:
     return all(n % factor != 0 for factor in range(3, n, 2))
 
 
-def main():
+def main() -> None:
     seed(2016)
 
-    num_samples, min_val, max_val = int(1e4), int(1e5), int(1e6)
+    num_samples: int = 10_000
+    min_val: int = 100_000
+    max_val: int = 1_000_000
 
-    print(
+    print((
         f"Counting the number of primes in {num_samples:,} random samples\n"
         f"with each sample having a value between {min_val:,} "
-        f"and {max_val:,} inclusive . . .",
+        f"and {max_val:,} inclusive . . .")
     )
 
-    samples = [randint(min_val, max_val) for _ in range(num_samples)]
+    samples: list[int] = [randint(min_val, max_val) for _ in range(num_samples)]
 
-    start_time = process_time()
-    num_primes = [is_prime(n) for n in samples].count(True)
-    elapsed_time = process_time() - start_time
+    start_time: float = process_time()
+    num_primes: int = [is_prime(n) for n in samples].count(True)
+    elapsed_time: float = process_time() - start_time
 
     print(f"Number of primes found: {num_primes:,}")
     print(f"Total run time (sec): {elapsed_time:.3f}\n")

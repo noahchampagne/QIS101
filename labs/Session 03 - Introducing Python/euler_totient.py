@@ -2,7 +2,7 @@
 """euler_totient.py"""
 
 
-def gcd(a: int, b: int) -> int:
+def gcd(a:int, b:int) -> int:
     """Find greatest common divisor of a & b"""
     while b > 0:
         a, b = b, a % b
@@ -11,14 +11,14 @@ def gcd(a: int, b: int) -> int:
 
 def totient(n: int) -> int:
     """Calculate Euler's totient of n"""
-    s = 1
+    s: int = 1
     for i in range(2, n):
         if gcd(i, n) == 1:
             s += 1
     return s
 
 
-def main():
+def main() -> None:
     print("Natural numbers between 2 and 100", end=" ")
     print("that exceed their totient by one:")
 

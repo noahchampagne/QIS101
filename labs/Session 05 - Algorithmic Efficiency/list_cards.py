@@ -2,22 +2,11 @@
 """list_cards.py"""
 
 
-suits = ["Clubs", "Diamonds", "Hearts", "Spades"]
-ranks = [
-    "Deuce",
-    "Three",
-    "Four",
-    "Five",
-    "Six",
-    "Seven",
-    "Eight",
-    "Nine",
-    "Ten",
-    "Jack",
-    "Queen",
-    "King",
-    "Ace",
-]
+# fmt: off
+suits: list[str] = ["Clubs", "Diamonds", "Hearts", "Spades"]
+ranks: list[str] = ["Deuce", "Three", "Four", "Five", "Six", "Seven",
+                    "Eight", "Nine", "Ten", "Jack", "Queen", "King", "Ace"]
+# fmt: on
 
 
 def init_deck() -> list[int]:
@@ -30,18 +19,17 @@ def init_deck() -> list[int]:
 
 def card_name(card_num: int) -> str:
     """Returns the rank and suit for the given card number"""
-    name = f"{ranks[card_num % 13]} of {suits[card_num // 13]}"
-    return name
+    return f"{ranks[card_num % 13]} of {suits[card_num // 13]}"
 
 
-def display_deck(deck: list[int]):
+def display_deck(deck: list[int]) -> None:
     """Displays each card in the given deck in order of increasing card position"""
     for card_pos, card_num in enumerate(deck):
         print(f"The card in position {card_pos} is the {card_name(card_num)}")
 
 
-def main():
-    deck = init_deck()
+def main() -> None:
+    deck: list[int] = init_deck()
     display_deck(deck)
 
 

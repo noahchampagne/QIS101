@@ -1,22 +1,31 @@
 #!/usr/bin/env python3
 """plot_rings.py"""
 
+from __future__ import annotations
+
 import os
 import sys
+import typing
 
 import matplotlib.pyplot as plt
 import numpy as np
 
+if typing.TYPE_CHECKING:
+    from matplotlib.axes import Axes
+    from matplotlib.figure import Figure
+    from matplotlib.gridspec import GridSpec
+    from numpy.typing import NDArray
 
-def plot(ax: plt.Axes):
+
+def plot(ax: plt.Axes) -> None:
     """Draw the Olympic Rings"""
-    radius = 25
-    theta = np.linspace(0, 2 * np.pi, 1000)
-    x = radius * np.cos(theta)
-    y = radius * np.sin(theta)
+    radius: float = 25.0
+    theta: NDArray[np.float_] = np.linspace(0, 2 * np.pi, 1000, dtype=np.float_)
+    x: NDArray[np.float_] = radius * np.cos(theta)
+    y: NDArray[np.float_] = radius * np.sin(theta)
 
-    x_offset = 5 / 2 * radius
-    y_offset = radius
+    x_offset: float = 5 / 2 * radius
+    y_offset: float = radius
 
     ax.plot(x, y, color="black", linewidth=12)
     ax.plot(x - x_offset, y, color="blue", linewidth=12)
@@ -29,10 +38,10 @@ def plot(ax: plt.Axes):
     ax.axis("off")
 
 
-def main():
-    fig = plt.figure(os.path.basename(sys.argv[0]))
-    gs = fig.add_gridspec(1, 1)
-    ax = fig.add_subplot(gs[0, 0])
+def main() -> None:
+    fig: Figure = plt.figure(os.path.basename(sys.argv[0]))
+    gs: GridSpec = fig.add_gridspec(1, 1)
+    ax: Axes = fig.add_subplot(gs[0, 0])
     plot(ax)
     plt.show()
 

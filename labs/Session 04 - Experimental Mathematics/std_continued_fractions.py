@@ -3,7 +3,7 @@
 
 import math
 
-MAX_TERMS = 20
+MAX_TERMS: int = 20
 
 
 def normalize_cf(std_cf: list[int]) -> list[int]:
@@ -11,7 +11,7 @@ def normalize_cf(std_cf: list[int]) -> list[int]:
     while True:
         if len(std_cf) > 2:
             if std_cf[-1] == 1 and std_cf[-2] != 1:
-                std_cf[-2] += 1
+                std_cf[int(-2)] += 1
                 std_cf.pop(-1)
             else:
                 break
@@ -21,17 +21,17 @@ def normalize_cf(std_cf: list[int]) -> list[int]:
 
 def encode_cf(x: float) -> list[int]:
     """Returns the standard continued fraction encoding of decimal x"""
-    std_cf: list = []
+    std_cf: list[int] = []
     while len(std_cf) < MAX_TERMS:
         std_cf.append(math.floor(x))
         x = x - math.floor(x)
         if x < 1e-11:
             break
         x = 1 / x
-    return normalize_cf(std_cf)
+    return normalize_cf(std_cf)    
 
 
-def decode_cf(std_cf) -> float:
+def decode_cf(std_cf: list[int]) -> float:
     """Returns the decimal encoded by the given standard continued fraction"""
     h_n, k_n = 0, 0
     b_1, h_1, k_1 = 1, 1, 0
@@ -46,19 +46,19 @@ def decode_cf(std_cf) -> float:
     return h_n / k_n
 
 
-def eval_cf(x: float):
+def eval_cf(x: float) -> None:
     """Encodes and decodes decimal x as a standard continued fraction"""
-    std_cf = encode_cf(x)
-    x2 = decode_cf(std_cf)
+    std_cf: list[int] = encode_cf(x)
+    x2: float = decode_cf(std_cf)
     print(f"{x} -> {std_cf} -> {x2}")
 
 
-def main():
+def main() -> None:
     eval_cf(3.245)
     eval_cf(math.sqrt(2))
     eval_cf(math.sqrt(113))
 
-    golden_ratio = (1 + math.sqrt(5)) / 2
+    golden_ratio: float = (1 + math.sqrt(5)) / 2
     eval_cf(golden_ratio)
 
 

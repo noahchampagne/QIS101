@@ -4,15 +4,15 @@
 
 def sigma(n: int) -> float:
     """Sum the reciprocal of each integer from 1 to n inclusive"""
-    s = 0.0
+    s: float = 0.0
     for k in range(1, n + 1):
         s += 1 / k
     return s
 
 
-def main():
+def main() -> None:
     for num_terms in range(1000, 11000, 1000):
-        series_sum = sigma(num_terms)
+        series_sum: float = sigma(num_terms)
         print(f"Sum of first {num_terms:>7,} terms = {series_sum:.14f}")
 
 

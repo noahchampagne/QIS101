@@ -1,44 +1,50 @@
 #!/usr/bin/env python3
 """collatz_conjecture.py"""
 
+from __future__ import annotations
+
 import os
 import sys
+import typing
 
 import matplotlib.pyplot as plt
-from numba import njit
 import numpy as np
 from matplotlib.ticker import AutoMinorLocator
+from numba import njit  # type: ignore
+
+if typing.TYPE_CHECKING:
+    from matplotlib.axes import Axes
+    from matplotlib.figure import Figure
+    from matplotlib.gridspec import GridSpec
+    from numpy.typing import NDArray
 
 
-@njit
+@njit()  # type: ignore
 def stop_time(n: int) -> int:
     """Return the Collatz stopping time for the given integer"""
-    counter = 0
+    counter: int = 0
     while n > 1:
         n = n // 2 if n % 2 == 0 else 3 * n + 1
         counter += 1
     return counter
 
 
-@njit
-def stop_times(max_n) -> np.ndarray:
-    """Returns an array of the Collatz stopping times each integer in the given range"""
-    y = np.zeros(max_n, dtype=np.int64)
+@njit()  # type: ignore
+def stop_times(max_n: int) -> NDArray[np.int_]:
+    """Returns the Collatz stopping time for each integer to max_n"""
+    y: NDArray[np.int_] = np.zeros(max_n, dtype=np.int_)
     for i in range(max_n):
         y[i] = stop_time(i)
     return y
 
 
-def plot(ax: plt.Axes):
+def plot(ax: plt.Axes) -> None:
     """Plot a histogram of Collatz stopping times"""
-    max_n = 100_000_000
+    max_n: int = 100_000_000
 
-    print(
-        "Calculating the Collatz stopping time for"
-        f" the first {max_n:,} natural numbers . . ."
-    )
+    print(f"Calculating the Collatz stopping time for each integer to {max_n:,}")
 
-    y = stop_times(max_n)
+    y: NDArray[np.int_] = stop_times(max_n)
 
     ax.set_title(f"Collatz Conjecture (n < {max_n:,})")
     ax.set_xlabel("Stopping Time")
@@ -49,10 +55,10 @@ def plot(ax: plt.Axes):
     ax.yaxis.set_minor_locator(AutoMinorLocator())
 
 
-def main():
-    fig = plt.figure(os.path.basename(sys.argv[0]))
-    gs = fig.add_gridspec(1, 1)
-    ax = fig.add_subplot(gs[0, 0])
+def main() -> None:
+    fig: Figure = plt.figure(os.path.basename(sys.argv[0]))
+    gs: GridSpec = fig.add_gridspec(1, 1)
+    ax: Axes = fig.add_subplot(gs[0, 0])
     plot(ax)
     plt.show()
 

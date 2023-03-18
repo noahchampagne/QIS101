@@ -6,7 +6,7 @@ def gcd(a: int, b: int) -> int:
     """Returns the greatest common divisor of a & b"""
     if a < b:
         a, b = b, a
-    c = a - b
+    c: int = a - b
     while c > 0:
         if c > b:
             a = c
@@ -17,9 +17,9 @@ def gcd(a: int, b: int) -> int:
     return b
 
 
-def main():
-    a = 182
-    b = 231
+def main() -> None:
+    a: int = 182
+    b: int = 231
     print(f"The GCD of {a} and {b} = {gcd(a,b)}")
 
 

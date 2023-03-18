@@ -1,17 +1,26 @@
 #!/usr/bin/env python3
 """plot_parabola.py"""
 
+from __future__ import annotations
+
 import os
 import sys
+import typing
 
 import matplotlib.pyplot as plt
 import numpy as np
 
+if typing.TYPE_CHECKING:
+    from matplotlib.axes import Axes
+    from matplotlib.figure import Figure
+    from matplotlib.gridspec import GridSpec
+    from numpy.typing import NDArray
 
-def plot(ax: plt.Axes):
+
+def plot(ax: Axes) -> None:
     """Plot y = x^2 + 1 over the domain [-6, 6]"""
-    x = np.linspace(-4, 5, 100)
-    y = np.power(x, 2) + 1
+    x: NDArray[np.float_] = np.linspace(-4, 5, 100, dtype=np.float_)
+    y: NDArray[np.float_] = np.power(x, 2) + 1.0
 
     # Plot the graph on the main axes
     ax.plot(x, y)
@@ -31,10 +40,10 @@ def plot(ax: plt.Axes):
     ax.axhline(1, color="gray", linestyle="--")
 
 
-def main():
-    fig = plt.figure(os.path.basename(sys.argv[0]))
-    gs = fig.add_gridspec(1, 1)
-    ax = fig.add_subplot(gs[0, 0])
+def main() -> None:
+    fig: Figure = plt.figure(os.path.basename(sys.argv[0]))
+    gs: GridSpec = fig.add_gridspec(1, 1)
+    ax: Axes = fig.add_subplot(gs[0, 0])
     plot(ax)
     plt.show()
 

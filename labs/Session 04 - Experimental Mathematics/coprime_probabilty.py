@@ -5,17 +5,17 @@ from math import gcd, sqrt
 from random import randint
 
 
-def main():
-    num_pairs = 1_000_000
-    num_coprime_pairs = 0
+def main() -> None:
+    num_pairs: int = 1_000_000
+    num_coprime_pairs: int = 0
 
     for _ in range(num_pairs):
-        a = randint(1, 100_000)
-        b = randint(1, 100_000)
+        a: int = randint(1, 100_000)
+        b: int = randint(1, 100_000)
         if gcd(a, b) == 1:
             num_coprime_pairs += 1
 
-    probability = num_coprime_pairs / num_pairs
+    probability: float = num_coprime_pairs / num_pairs
 
     print(f"Coprime Probability = {probability:.4f}")
     print(f"Hidden constant     = {sqrt(6 / probability):.4f}")

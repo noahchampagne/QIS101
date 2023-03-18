@@ -2,13 +2,13 @@
 """age_converter.py"""
 
 
-def main():
-    first_name = "Dave"
+def main() -> None:
+    first_name: str = "Dave"
 
-    age_years = 55
+    age_years: int = 55
 
     # Convert years to seconds
-    age_secs = age_years * 60 * 60 * 24 * 365
+    age_secs: int = age_years * 60 * 60 * 24 * 365
 
     print(f"Hello, my name is {first_name}.")
 

@@ -1,48 +1,57 @@
 #!/usr/bin/env python3
-# bessel_correction.py
+"""bessel_correction.py"""
+
+from __future__ import annotations
 
 import os
 import pickle
 import sys
+import typing
 
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.ticker import MultipleLocator
-from numba import njit
-from numpy.random import choice, randint, seed
+from numba import njit  # type: ignore
+from numpy.random import choice, randint, seed  # type: ignore
+
+if typing.TYPE_CHECKING:
+    from matplotlib.axes import Axes
+    from matplotlib.figure import Figure
+    from matplotlib.gridspec import GridSpec
+    from numpy.typing import NDArray
 
 
-@njit
-def get_bsv(arr):
-    mean = np.mean(arr)
-    bsv = np.sum((arr - mean) ** 2) / len(arr)
+@njit  # type: ignore
+def get_bsv(arr: NDArray[np.int_]) -> float:
+    mean: np.float_ = np.mean(arr)
+    bsv: float = float(np.sum((arr - mean) ** 2) / len(arr))
     return bsv
 
 
-@njit
-def get_sample_bsv(population, sample_size):
-    num_trials = 20_000
-    total_bsv = 0
+@njit  # type: ignore
+def get_sample_bsv(population: NDArray[np.int_], sample_size: int) -> float:
+    num_trials: int = 20_000
+    total_bsv: float = 0.0
     for _ in range(num_trials):
-        samples = choice(population, sample_size, replace=False)
+        samples: NDArray[np.int_] = choice(population, sample_size, replace=False)
         total_bsv += get_bsv(samples)
-    mean_bsv = total_bsv / num_trials
+    mean_bsv: float = total_bsv / num_trials
     return mean_bsv
 
 
-def run_trials() -> list[tuple]:
+def run_trials() -> list[tuple[float, float, float, float]]:
     seed(2021)
-    population = randint(0, 1000, 7000)
-    pop_var = get_bsv(population)
+    population: NDArray[np.int_] = randint(0, 1000, 7000)
+    pop_var: float = get_bsv(population)
 
-    max_sample_size = 20
+    max_sample_size: int = 20
 
     print(f"{'Sample Size':^11}{'Sample Var':^21}{'Pop Var':^18}{'Ratio':^8}")
 
-    results: list[tuple] = []
+    results: list[tuple[float, float, float, float]] = []
     for sample_size in range(2, max_sample_size + 1):
-        sample_bsv = get_sample_bsv(population, sample_size)
-        ratio = sample_bsv / pop_var
+        sample_bsv: float = get_sample_bsv(population, sample_size)
+        ratio: float = sample_bsv / pop_var
         results.append((sample_size, sample_bsv, pop_var, ratio))
         print(
             f"{sample_size:^11}{sample_bsv:>16,.4f}{pop_var:>18,.4f}",
@@ -51,16 +60,16 @@ def run_trials() -> list[tuple]:
     return results
 
 
-def plot_ratio(ax: plt.Axes, results: list[tuple]):
-    x1 = [r[0] for r in results]
-    y1 = [r[3] for r in results]
+def plot_ratio(ax: Axes, results: list[tuple[float, float, float, float]]) -> None:
+    x1: list[float] = [r[0] for r in results]
+    y1: list[float] = [r[3] for r in results]
     ax.plot(x1, y1, label="BSV/PV")
 
-    x2 = np.linspace(2, 20, endpoint=True)
-    y2 = (x2 - 1) / x2
+    x2: NDArray[np.float_] = np.linspace(2, 20, endpoint=True)
+    y2: NDArray[np.float_] = (x2 - 1) / x2
     ax.plot(x2, y2, label=r"$\frac{n-1}{n}$")
 
-    ax.set_title(r"BSV over PV compared to Hyperbola $\frac{(n-1)}{n}$")
+    ax.set_title(r"$\frac{BSV}{PV}$ compared to Hyperbola $\frac{(n-1)}{n}$")
     ax.set_xlabel("Sample Size")
     ax.set_ylabel("Biased Sample Var / Population Var")
     ax.xaxis.set_major_locator(MultipleLocator(1))
@@ -68,9 +77,9 @@ def plot_ratio(ax: plt.Axes, results: list[tuple]):
     ax.legend()
 
 
-def plot_ubsv(ax: plt.Axes, results: list[tuple]):
-    x = [r[0] for r in results]
-    y = [r[2] for r in results]
+def plot_ubsv(ax: Axes, results: list[tuple[float, float, float, float]]) -> None:
+    x: list[float] = [r[0] for r in results]
+    y: list[float] = [r[2] for r in results]
     ax.plot(x, y, label="Pop Var")
 
     y = [r[1] for r in results]
@@ -87,30 +96,24 @@ def plot_ubsv(ax: plt.Axes, results: list[tuple]):
     ax.legend()
 
 
-def main():
-    file_name = os.path.dirname(sys.argv[0]) + "/bessel.pickle"
+def main() -> None:
+    file_name: str = os.path.dirname(sys.argv[0]) + "/bessel.pickle"
     if not os.path.exists(file_name):
-        results = run_trials()
+        results: list[tuple[float, float, float, float]] = run_trials()
         with open(file_name, "wb") as file_out:
             pickle.dump(results, file_out, pickle.HIGHEST_PROTOCOL)
-        fig = plt.figure(os.path.basename(sys.argv[0]))
-        gs = fig.add_gridspec(1, 1)
-        ax = fig.add_subplot(gs[0, 0])
+        fig: Figure = plt.figure(os.path.basename(sys.argv[0]))
+        gs: GridSpec = fig.add_gridspec(1, 1)
+        ax: Axes = fig.add_subplot(gs[0, 0])
         plot_ratio(ax, results)
         plt.show()
     else:
         with open(file_name, "rb") as file_in:
             results = pickle.load(file_in)
-
-        print(
-            f"{'Sample Size':^11}"
-            f"{'Sample Var':^21}"
-            f"{'Pop Var':^16}"
-            f"{'UBSV':^12}"
-        )
+        print(f"{'Sample Size':^11}{'Sample Var':^21}{'Pop Var':^16}{'UBSV':^12}")
         for r in results:
             sample_size, sample_bsv, pop_var, _ = r
-            ubsv = sample_bsv * sample_size / (sample_size - 1)
+            ubsv: float = sample_bsv * sample_size / (sample_size - 1)
             print(
                 f"{sample_size:^11}{sample_bsv:>16,.4f}{pop_var:>18,.4f}",
                 f"{ubsv:^18,.4f}",

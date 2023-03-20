@@ -1,67 +1,76 @@
 #!/usr/bin/env python3
-# common_statistics.py
+"""common_statistics.py"""
 
 import statistics
 from collections import Counter
-
-import numpy as np
-
-
-def mean(samples:np.ndarray)->float:
-    return np.sum(samples) / samples.size
+from math import sqrt
+from random import randint, seed
 
 
-def median(samples:np.ndarray)->float:
-    s = np.sort(samples)
-    i = s.size // 2
-    m = s[i] if s.size % 2 == 1 else (s[i - 1] + s[i]) / 2
-    return m
+def mean(samples: list[int]) -> float:
+    return sum(samples) / len(samples)
 
 
-def mode(samples: np.ndarray) -> list[float]:
+def median(samples: list[int]) -> float:
+    samples.sort()
+    i: int = len(samples) // 2
+    return samples[i] if len(samples) % 2 == 1 else (samples[i - 1] + samples[i]) / 2
+
+
+def mode(samples: list[int]) -> list[int]:
     # Create a dictionary to tally the occurrence of each value
-    count = Counter(sorted(samples))
+    count: Counter[int] = Counter(sorted(samples))
     # Find the maximum count of all keys (samples)
-    max_count = max(count.values())
+    max_count: int = max(count.values())
     # Select the keys which have that max count
-    m = [k for k, v in count.items() if v == max_count]
-    return m
+    return [k for k, v in count.items() if v == max_count]
 
 
-def pop_variance(samples: np.ndarray) -> float:
-    m = mean(samples)
-    # Numpy n-dimensional arrays are inherently vectorized
-    # so element-level arithmetic can be expressed at the array-level
-    # without having to loop through each element individually
-    v = sum((samples - m) ** 2) / samples.size
+def sample_variance(samples: list[int]) -> float:
+    m: float = mean(samples)
+    v: float = 0.0
+    for i in range(0, len(samples)):
+        v += (samples[i] - m) ** 2
+    v /= len(samples) - 1
     return v
 
 
-def main():
-    np.random.seed(2021)
-    samples = np.random.randint(0, 100, 30)
-    print(f"Samples      = {samples.tolist()}")
+def main() -> None:
+    seed(2016)
+
+    # Create list of 30 random integers in range [0,100]
+    samples: list[int] = []
+    for _ in range(30):
+        samples.append(randint(0, 100))
+
+    # Print list in rows of 10 elements each
+    print("Samples = list[")
+    for i in range(3):
+        print("\t", end="")
+        print(*samples[i * 10 : i * 10 + 10], sep=", ", end=",\n")
+    print("]\n")
+
+    # Compare common statistics calculated via custom code
+    # versus using the standard library "statistics" package
+    print(f"Mean    = {mean(samples):.4f}")
+    print(f"Mean    = {statistics.mean(samples):.4f}")
     print()
 
-    print(f"Mean         = {mean(samples):.4f}")
-    print(f"Mean         = {np.mean(samples):.4f}")
+    print(f"Median  = {median(samples):.4f}")
+    print(f"Median  = {statistics.median(samples):.4f}")
     print()
 
-    print(f"Median       = {median(samples):.4f}")
-    print(f"Median       = {np.median(samples):.4f}")
+    print(f"Mode    = {mode(samples)}")
+    print(f"Mode    = {sorted(statistics.multimode(samples))}")
     print()
 
-    print(f"Mode         = {mode(samples)}")
-    print(f"Mode         = {sorted(statistics.multimode(samples))}")
+    v: float = sample_variance(samples)
+    print(f"Sample Variance = {v:.4f}")
+    print(f"Sample Variance = {statistics.variance(samples):.4f}")
     print()
 
-    v = pop_variance(samples)
-    print(f"Pop Variance = {v:.4f}")
-    print(f"Pop Variance = {np.var(samples):.4f}")
-    print()
-
-    print(f"Pop Std. Dev = {np.sqrt(v):.4f}")
-    print(f"Pop Std. Dev = {np.std(samples):.4f}")
+    print(f"Sample Std. Dev = {sqrt(v):.4f}")
+    print(f"Sample Std. Dev = {statistics.stdev(samples):.4f}")
 
 
 if __name__ == "__main__":

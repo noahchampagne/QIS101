@@ -2,11 +2,11 @@
 """stdnormal_area.py"""
 
 import numpy as np
-import scipy.integrate
+import scipy.integrate  # type: ignore
 
 
 def f(x: float) -> float:
-    return 1 / np.sqrt(2 * np.pi) * np.exp(-(x**2) / 2)
+    return float(1 / np.sqrt(2 * np.pi) * np.exp(-(x**2) / 2))
 
 
 def main() -> None:

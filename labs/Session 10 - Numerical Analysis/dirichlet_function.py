@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 import typing
-import mpmath
+import mpmath # type: ignore
 
 if typing.TYPE_CHECKING:
     from typing import Any

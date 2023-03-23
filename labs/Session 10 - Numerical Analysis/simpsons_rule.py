@@ -25,7 +25,7 @@ def F(x: float) -> float:
 # fmt: off
 def left_hand_rule(func: Callable[[float], float],
                    a: float, b: float, intervals: int) -> float:  # fmt: on
-    """Numerically estimate the integral of func() using the left-hand rule"""
+    """Numerically estimate the integral of func() in [a,b] using the left-hand rule"""
     dx: float = (b - a) / intervals
     area: float = 0.0
     for i in range(0, intervals):
@@ -35,7 +35,7 @@ def left_hand_rule(func: Callable[[float], float],
 # fmt: off
 def simpsons_rule(func: Callable[[float], float],
                   a: float, b: float, intervals: int) -> float:  # fmt:on
-    """Numerically estimate the integral of func() using Simpson's rule"""
+    """Numerically estimate the integral of func() in [a,b] using Simpson's rule"""
     dx: float = (b - a) / intervals
     area: float = func(a) + func(b)
     for i in range(1, intervals):
@@ -52,14 +52,14 @@ def main() -> None:
     print("Integrating x^5 - 2x^4 - 120x^3 + 22x^2 + 2199x + 1980")
     print(f" over [{a}, {b}] using {intervals:,} intervals\n")
 
-    area_act = F(b) - F(a)
+    area_act: float = F(b) - F(a)
     print(f"Analytic (Exact) : {area_act:.14f}\n")
 
-    area_lh = left_hand_rule(f, a, b, intervals)
+    area_lh: float = left_hand_rule(f, a, b, intervals)
     print(f"Left-hand Rule   : {area_lh:.14f}")
     print(f"% Relative Error : {abs((area_lh - area_act) / area_act):.14%}\n")
 
-    area_simpsons = simpsons_rule(f, a, b, intervals)
+    area_simpsons: float = simpsons_rule(f, a, b, intervals)
     print(f"Simpson's Rule   : {area_simpsons:.14f}")
     print(f"% Relative Error : {abs((area_simpsons - area_act) / area_act):.14%}")
 

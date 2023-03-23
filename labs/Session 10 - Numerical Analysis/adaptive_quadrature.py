@@ -61,7 +61,7 @@ def main() -> None:
     print()
 
     start_time = time.process_time()
-    area_adaptive = midpoint_adaptive(a, b)
+    area_adaptive: float = midpoint_adaptive(a, b)
     elapsed_time = time.process_time() - start_time
     rel_err = abs((area_adaptive - area_actual) / area_actual)
     print(f"Estimated integral using adaptive width midpoint rule = {area_adaptive}")

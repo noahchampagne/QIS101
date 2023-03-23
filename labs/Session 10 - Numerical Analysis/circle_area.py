@@ -6,7 +6,7 @@ from __future__ import annotations
 import typing
 
 import numpy as np
-import scipy.integrate
+import scipy.integrate # type: ignore
 
 if typing.TYPE_CHECKING:
     from typing import Callable
@@ -14,18 +14,18 @@ if typing.TYPE_CHECKING:
 
 def f(x: float) -> float:
     """This is the function we are numerically integrating"""
-    return 4 * np.sqrt(1 - x**2)
+    return float(4 * np.sqrt(1 - x**2))    
 
 
 def F(x: float) -> float:
     """This is the exact analytic integral of our function"""
-    return 2 * (x * np.sqrt(1 - x**2) + np.arcsin(x))
+    return float(2 * (x * np.sqrt(1 - x**2) + np.arcsin(x)))
 
 
 # fmt: off
 def left_hand_rule(func: Callable[[float], float],
                    a: float, b: float, intervals: int) -> float:  # fmt: on
-    """Numerically estimate the integral of f() using the left-hand rule"""
+    """Numerically estimate the integral of func() in [a,b] using the left-hand rule"""
     dx: float = (b - a) / intervals
     area: float = 0.0
     for i in range(0, intervals):
@@ -35,7 +35,7 @@ def left_hand_rule(func: Callable[[float], float],
 # fmt:off
 def simpsons_rule(func: Callable[[float], float],
                   a: float, b: float, intervals: int) -> float:  # fmt: on
-    """Numerically estimate the integral of f() using the Simpson's rule"""
+    """Numerically estimate the integral of func() in [a,b] using Simpson's rule"""
     dx: float = (b - a) / intervals
     area: float = func(a) + func(b)
     for i in range(1, intervals):
@@ -44,10 +44,8 @@ def simpsons_rule(func: Callable[[float], float],
 
 
 def main() -> None:
-    a: float
-    b: float
-    a, b = 0.0, 1.0
-
+    a: float = 0.0
+    b: float = 1.0
     intervals: int = int(1e6)
 
     print("Integrating 4 * sqrt(1 - x^2)", end=" ")

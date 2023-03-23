@@ -12,34 +12,34 @@ import numpy as np
 from matplotlib.ticker import MultipleLocator
 
 if typing.TYPE_CHECKING:
-    import numpy.typing as npt
+    from matplotlib.axes import Axes
     from matplotlib.figure import Figure
     from matplotlib.gridspec import GridSpec
-    from matplotlib.axes import Axes
+    from numpy.typing import NDArray
 
 
-def f(x: npt.NDArray[np.float_]) -> npt.NDArray[np.float_]:
+def f(x: NDArray[np.float_]) -> NDArray[np.float_]:
     return np.cos(x)
 
 
-def f_prime(x: npt.NDArray[np.float_], h: float) -> npt.NDArray[np.float_]:
+def f_prime(x: NDArray[np.float_], h: float) -> NDArray[np.float_]:
     return (f(x + h) - f(x)) / h
 
 
-def plot(ax: plt.Axes) -> None:
+def plot(ax: Axes) -> None:
     a: float = -4 * np.pi
     b: float = 4 * np.pi
     n: int = 500
 
-    x: npt.NDArray[np.float_] = np.linspace(a, b, n, dtype=float)
+    x: NDArray[np.float_] = np.linspace(a, b, n, dtype=float)
 
-    y: npt.NDArray[np.float_] = f(x)
-    y_prime: npt.NDArray[np.float_] = f_prime(x, (b - a) / n)
+    y: NDArray[np.float_] = f(x)
+    y_prime: NDArray[np.float_] = f_prime(x, (b - a) / n)
 
-    ax.plot(x, y, label="y")
-    ax.plot(x, y_prime, label=r"$\frac{dy}{dx}$")
+    ax.plot(x, y, label=r"$y=\cos{x}$")
+    ax.plot(x, y_prime, label=r"$\frac{dy}{dx}=-\sin{x}$")
 
-    ax.set_title(r"$y = cos(x)$")
+    ax.set_title("Fermat's Difference Quotient")
     ax.set_xlabel("x")
     ax.set_ylabel("y")
 

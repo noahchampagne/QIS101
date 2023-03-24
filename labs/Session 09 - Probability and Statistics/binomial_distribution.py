@@ -8,6 +8,7 @@ import sys
 import typing
 
 import matplotlib.pyplot as plt
+import numpy as np
 from matplotlib.ticker import MultipleLocator
 from scipy.stats import binom  # type: ignore
 
@@ -15,6 +16,7 @@ if typing.TYPE_CHECKING:
     from matplotlib.axes import Axes
     from matplotlib.figure import Figure
     from matplotlib.gridspec import GridSpec
+    from numpy.typing import NDArray
 
 
 def plot(ax: Axes) -> None:
@@ -26,9 +28,15 @@ def plot(ax: Axes) -> None:
 
     # Use list comprehension to get scipy.binom.pmf for each r_value
     # for the given probabilities p=.3, p=.5, p=.9
-    dist1: list[float] = [binom.pmf(r, n, 0.30) for r in r_values]
-    dist2: list[float] = [binom.pmf(r, n, 0.50) for r in r_values]
-    dist3: list[float] = [binom.pmf(r, n, 0.90) for r in r_values]
+    dist1: NDArray[np.float_] = np.asarray(
+        [binom.pmf(r, n, 0.30) for r in r_values], dtype=np.float_
+    )
+    dist2: NDArray[np.float_] = np.asarray(
+        [binom.pmf(r, n, 0.50) for r in r_values], dtype=np.float_
+    )
+    dist3: NDArray[np.float_] = np.asarray(
+        [binom.pmf(r, n, 0.90) for r in r_values], dtype=np.float_
+    )
 
     # Use matplotlib bar plot to show each r_value
     # with its associated probability of occurrence
@@ -50,9 +58,7 @@ def main() -> None:
     gs: GridSpec = fig.add_gridspec(1, 1)
     ax: Axes = fig.add_subplot(gs[0, 0])
     plot(ax)
-
     plt.show()
-
 
 if __name__ == "__main__":
     main()

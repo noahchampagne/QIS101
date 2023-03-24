@@ -8,7 +8,7 @@ from time import process_time
 def main() -> None:
     seed(2016)
 
-    num_samples:int = 10_000
+    num_samples: int = 10_000
 
     print(f"Timsorting {num_samples:,} random samples...")
     samples: list[int] = [randint(1, 10_000) for _ in range(num_samples)]

@@ -14,11 +14,11 @@ def bubble_sort(values: list[int]) -> list[int]:
     last_index: int = len(values) - 1
     is_sorted: bool = False
     while not is_sorted:
-        swap_needed:bool= False
+        swap_needed: bool = False
         for i in range(last_index):
             if values[i] > values[i + 1]:
                 # Swap these adjacent values
-                values[i], values[i+1] = values[i+1], values[i]
+                values[i], values[i + 1] = values[i + 1], values[i]
                 swap_needed = True
         if not swap_needed:
             is_sorted = True

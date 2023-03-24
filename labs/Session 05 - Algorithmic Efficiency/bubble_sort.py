@@ -15,7 +15,7 @@ def bubble_sort(values: list[int]) -> list[int]:
         for i in range(last_index):
             if values[i] > values[i + 1]:
                 # Swap these adjacent values
-                values[i], values[i+1] = values[i+1], values[i]
+                values[i], values[i + 1] = values[i + 1], values[i]
                 swap_needed = True
         if not swap_needed:
             is_sorted = True
@@ -37,7 +37,7 @@ def main() -> None:
 
     start_time: float = process_time()
     samples = bubble_sort(samples)
-    elapsed_time:float = process_time() - start_time
+    elapsed_time: float = process_time() - start_time
 
     print("SORTED")
     print(f"{samples[:10]} ... {samples[-10:]}")

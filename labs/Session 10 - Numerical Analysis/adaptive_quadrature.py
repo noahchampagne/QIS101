@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# adaptive_quadrature.py
+"""adaptive_quadrature.py"""
 
 import time
 

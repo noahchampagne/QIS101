@@ -63,11 +63,11 @@ def riffle_shuffle(deck: NDArray[np.int_]) -> NDArray[np.int_]:
         right_pile = right_pile[chunk:]
     return new_deck
 
-
+#fmt: off
 def score_shuffle(
     shuffle_func: Callable[[NDArray[np.int_]], NDArray[np.int_]],
-    num_deals: int = 10_000,
-) -> float:
+    num_deals: int = 10_000) -> float:
+#fmt: on    
     total_score: float = 0.0
     deck: NDArray[np.int_] = np.arange(52, dtype=int)
     for _ in range(num_deals):

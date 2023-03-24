@@ -19,10 +19,12 @@ def main() -> None:
     min_val: int = 100_000
     max_val: int = 1_000_000
 
-    print((
-        f"Counting the number of primes in {num_samples:,} random samples\n"
-        f"with each sample having a value between {min_val:,} "
-        f"and {max_val:,} inclusive . . .")
+    print(
+        (
+            f"Counting the number of primes in {num_samples:,} random samples\n"
+            f"with each sample having a value between {min_val:,} "
+            f"and {max_val:,} inclusive . . ."
+        )
     )
 
     samples: list[int] = [randint(min_val, max_val) for _ in range(num_samples)]

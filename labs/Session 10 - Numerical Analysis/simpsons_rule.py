@@ -32,7 +32,7 @@ def left_hand_rule(func: Callable[[float], float],
         area += func(a + i * dx)
     return dx * area
 
-# fmt: off
+
 def simpsons_rule(func: Callable[[float], float],
                   a: float, b: float, intervals: int) -> float:  # fmt:on
     """Numerically estimate the integral of func() in [a,b] using Simpson's rule"""
@@ -41,7 +41,7 @@ def simpsons_rule(func: Callable[[float], float],
     for i in range(1, intervals):
         area += func(a + i * dx) * (2 * (i % 2 + 1))
     return dx / 3 * area
-
+# fmt: on
 
 def main() -> None:
     a: float

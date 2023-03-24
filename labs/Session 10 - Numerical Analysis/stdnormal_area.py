@@ -13,7 +13,7 @@ def main() -> None:
     integral: float = scipy.integrate.quad(f, -1, 1)[0]
 
     # See https://en.wikipedia.org/wiki/68%E2%80%9395%E2%80%9399.7_rule
-    print(f"Normal CDF with 1st sigma = {integral}")
+    print(f"Normal CDF: Probability X is within ± 1st sigma = {integral:.5%}")
 
 
 if __name__ == "__main__":

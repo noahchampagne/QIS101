@@ -53,7 +53,7 @@ def plot(ax: Axes) -> None:
     for ball_num in range(num_balls):
         slot_num: int = int(first_slot + balls[ball_num])
         slots[slot_num] += 1
-    slots = slots / num_balls
+    slots = slots / float(num_balls)
 
     x: NDArray[np.float_] = np.linspace(
         -num_levels // 2, num_levels // 2, num_levels + 1, dtype=np.float_
@@ -65,7 +65,7 @@ def plot(ax: Axes) -> None:
     norm_x: NDArray[np.float_] = np.linspace(
         -num_levels // 2, num_levels // 2, 100, dtype=np.float_
     )
-    norm_y: NDArray[np.float_] = stats.norm(mu, sigma).pdf(norm_x)
+    norm_y: NDArray[np.float_] = stats.norm(mu, sigma).pdf(norm_x)  # type: ignore
     ax.plot(norm_x, norm_y, color="red", linewidth=2, label="Normal")
 
     ax.set_title(

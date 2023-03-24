@@ -48,13 +48,10 @@ def plot(ax: Axes) -> None:
     max_class_size: int = 80
     prob: NDArray[np.float_] = calc_probabilities(num_classes, max_class_size)
 
-    ax.step(
-        range(max_class_size),
-        prob,
-        color="black",
-        linewidth=3,
-        label="Estimated Probability",
-    )
+    # fmt: off
+    ax.step(range(max_class_size), prob, color="black", linewidth=3,
+            label="Estimated Probability")
+    # fmt: on
 
     min_class_size: int = np.where(prob > 0.50)[0][0]
     p: float = prob[min_class_size]
@@ -64,7 +61,10 @@ def plot(ax: Axes) -> None:
     x: NDArray[np.float_] = np.linspace(0, 80, 200, dtype=np.float_)
     y: NDArray[np.float_] = 1.0 - np.exp(-(x**2) / 730)
 
-    ax.plot(x, y, color="blue", label=r"Approximated: $1-{\rm e}^-\frac{x^2}{365*2}$")
+    # fmt: off
+    ax.plot(x, y, color="blue",
+            label=r"Approximated: $1-{\rm e}^-\frac{x^2}{365*2}$")
+    # fmt: on
 
     ax.set_xlim(0, 80)
     ax.set_ylim(0, 1.0)

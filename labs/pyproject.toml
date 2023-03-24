@@ -3,15 +3,3 @@ extend-select = ["C4", "ISC", "SIM", "TCH"]
 ignore = []
 show-fixes = true
 target-version = "py39"
-
-[tool.pyright]
-# https://github.com/microsoft/pyright/blob/main/docs/configuration.md
-include = ["."]
-typeCheckingMode = "strict"
-# strict disabled checks
-#reportUnknownParameterType = false
-#reportMissingParameterType = false
-reportUnknownMemberType = false
-#reportUnknownArgumentType = false
-#reportMissingTypeStubs = false
-

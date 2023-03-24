@@ -121,9 +121,16 @@ venv.bak/
 /site
 
 # mypy
+/labs/.mypy_cache/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+
+# pylance/pyright
+labs/typings/
+typings/
+labs/.typings/
+.typings/
 
 # Pyre type checker
 .pyre/

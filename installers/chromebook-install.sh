@@ -43,6 +43,7 @@ code --install-extension ms-python.python
 code --install-extension ms-python.vscode-pylance
 code --install-extension ms-python.isort
 code --install-extension ms-toolsai.jupyter
+code --install-extension ms-toolsai.jupyter-renderers
 code --install-extension visualstudioexptteam.vscodeintellicode
 code --install-extension streetsidesoftware.code-spell-checker
 code --install-extension ms-vscode.cmake-tools

@@ -17,11 +17,10 @@
         "python.defaultInterpreterPath": "${env:CONDA_PREFIX}/python.exe",
         "python.analysis.typeCheckingMode": "strict",
         "python.analysis.autoImportCompletions": true,
-        "python.analysis.autoImportUserSymbols": true,
         "python.analysis.completeFunctionParens": true,
         "python.analysis.inlayHints.variableTypes": true,
         "python.analysis.inlayHints.functionReturnTypes": true,
-        "python.analysis.stubPath": "./typings",
+        "python.analysis.stubPath": ".typings",
         "python.analysis.diagnosticSeverityOverrides": {
             "reportUnknownMemberType": "none",
             "reportUnknownVariableType": "warning",

@@ -36,7 +36,7 @@ def plot(ax: plt.Axes) -> None:
 
     # Find the symbolic first derivative of "fn" and locate the real-only
     # zeros of this derivative to find the extrema (tangent) points
-    fn_d1: Derivative = Derivative(fn_sym, x, evaluate=True)
+    fn_d1: Derivative = Derivative(fn_sym, x, evaluate=True)  # type: ignore
     fn_d1_zeros: NDArray[np.float_] = np.asarray(
         [float(r) for r in real_roots(fn_d1)]  # type: ignore
     )

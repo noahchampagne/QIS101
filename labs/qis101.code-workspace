@@ -47,11 +47,7 @@
         "python.terminal.activateEnvInCurrentTerminal": false,
         "python.terminal.activateEnvironment": false,
         "output.smartScroll.enabled": false,
-        "cSpell.words": [
-            "bigram",
-            "bigrams",
-            "rline"
-        ],
+        "notebook.formatOnSave.enabled": true,
     },
     "launch": {
         "version": "0.2.0",

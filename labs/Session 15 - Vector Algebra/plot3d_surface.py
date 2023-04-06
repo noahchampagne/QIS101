@@ -25,8 +25,8 @@ def f(x: NDArray[np.float_], y: NDArray[np.float_]) -> NDArray[np.float_]:
 
 
 def plot(ax: Axes) -> None:
-    x: NDArray[np.float_] = np.linspace(-5, 5, 100)
-    y: NDArray[np.float_] = np.linspace(-5, 5, 100)
+    x: NDArray[np.float_] = np.linspace(-5.0, 5.0, 100)
+    y: NDArray[np.float_] = np.linspace(-5.0, 5.0, 100)
 
     x, y = np.meshgrid(x, y)
 

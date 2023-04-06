@@ -17,7 +17,7 @@ if typing.TYPE_CHECKING:
     from numpy.typing import NDArray
 
 
-def plot(ax: plt.Axes) -> None:
+def plot(ax: Axes) -> None:
     x: NDArray[np.float_] = np.linspace(-2, 2, 500, dtype=np.float_)
     f_top: NDArray[np.float_] = np.sqrt(1 - (np.abs(x) - 1) ** 2)
     f_bot: NDArray[np.float_] = np.arccos(1 - np.abs(x)) - np.pi
@@ -32,8 +32,8 @@ def plot(ax: plt.Axes) -> None:
 def main() -> None:
     fig: Figure = plt.figure(os.path.basename(sys.argv[0]))
     gs: GridSpec = fig.add_gridspec(1, 1)
-    ax: Axes = fig.add_subplot(gs[0, 0])
-    plot(ax)
+    ax: Axes = fig.add_subplot(gs[0, 0])  # type: ignore
+    plot(ax)  # type: ignore
     plt.show()
 
 

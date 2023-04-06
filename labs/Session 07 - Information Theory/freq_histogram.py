@@ -54,8 +54,8 @@ def main(file_name: str) -> None:
     fig: Figure = plt.figure(os.path.basename(sys.argv[0]))
     fig.set_size_inches(12, 8)
     gs: GridSpec = fig.add_gridspec(1, 1)
-    ax: Axes = fig.add_subplot(gs[0, 0])
-    plot(ax, file_name)
+    ax: Axes = fig.add_subplot(gs[0, 0])  # type: ignore
+    plot(ax, file_name)  # type: ignore
     plt.show()
 
 

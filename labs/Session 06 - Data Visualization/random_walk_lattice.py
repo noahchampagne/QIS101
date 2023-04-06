@@ -71,14 +71,14 @@ def main() -> None:
     fig.set_size_inches(12, 5)
     gs: GridSpec = fig.add_gridspec(1, 2)
 
-    ax: Axes = fig.add_subplot(gs[0, 0])
+    ax: Axes = fig.add_subplot(gs[0, 0])  # type: ignore
     ax.plot(steps, distances)
     ax.set_title(f"Uniform Random Walk on {dims}-D Unit Lattice")
     ax.set_xlabel("Number of Steps")
     ax.set_ylabel("Mean Final Distance (Normalized)")
     ax.plot()
 
-    ax = fig.add_subplot(gs[0, 1])
+    ax = fig.add_subplot(gs[0, 1])  # type: ignore
     ax.plot(steps, distances_squared, color="green")
     ax.plot(steps, m * steps + b, color="red", linewidth=2)
     print(m)

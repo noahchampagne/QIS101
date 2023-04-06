@@ -56,9 +56,10 @@ def plot(ax: Axes) -> None:
 def main() -> None:
     fig: Figure = plt.figure(os.path.basename(sys.argv[0]))
     gs: GridSpec = fig.add_gridspec(1, 1)
-    ax: Axes = fig.add_subplot(gs[0, 0])
-    plot(ax)
+    ax: Axes = fig.add_subplot(gs[0, 0])  # type: ignore
+    plot(ax)  # type: ignore
     plt.show()
+
 
 if __name__ == "__main__":
     main()

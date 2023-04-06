@@ -17,7 +17,7 @@ if typing.TYPE_CHECKING:
     from numpy.typing import NDArray
 
 
-def plot(ax: plt.Axes) -> None:
+def plot(ax: Axes) -> None:
     """Plot a circle of radius 250"""
     radius: float = 250.0
     theta: NDArray[np.float_] = np.linspace(0, 2 * np.pi, 1000)

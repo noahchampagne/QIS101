@@ -1,46 +1,57 @@
 #!/usr/bin/env python3
-# plot3d_torus.py
+"""plot3d_torus.py"""
 
-import numpy as np
-import matplotlib.pyplot as plt
-import sys
+from __future__ import annotations
+
 import os
+import sys
+import typing
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+if typing.TYPE_CHECKING:
+    from matplotlib.axes import Axes
+    from matplotlib.figure import Figure
+    from matplotlib.gridspec import GridSpec
+    from numpy.typing import NDArray
 
 
-def plot(ax):
-    radius_poloidal = 5
-    radius_toroidal = 25
+def plot(ax: Axes) -> None:
+    radius_poloidal: float = 5.0
+    radius_toroidal: float = 25.0
 
-    u = np.linspace(0, 2 * np.pi, 30)  # Poloidal rotation
-    v = np.linspace(0, 2 * np.pi, 30)  # Toroidal rotation
+    u: NDArray[np.float_] = np.linspace(0, 2 * np.pi, 30)  # Poloidal rotation
+    v: NDArray[np.float_] = np.linspace(0, 2 * np.pi, 30)  # Toroidal rotation
 
-    x = np.outer(radius_toroidal + radius_poloidal * np.sin(u), np.cos(v))
-    y = np.outer(radius_toroidal + radius_poloidal * np.sin(u), np.sin(v))
-    z = np.outer(radius_poloidal * np.cos(u), np.ones_like(v))
+    x: NDArray[np.float_] = np.outer(
+        radius_toroidal + radius_poloidal * np.sin(u), np.cos(v)
+    )
+    y: NDArray[np.float_] = np.outer(
+        radius_toroidal + radius_poloidal * np.sin(u), np.sin(v)
+    )
+    z: NDArray[np.float_] = np.outer(radius_poloidal * np.cos(u), np.ones_like(v))
 
     ax.set_xlabel("x")
     ax.set_ylabel("y")
-    ax.set_zlabel("z")
+    ax.set_zlabel("z")  # type: ignore
 
-    ax.view_init(azim=-60, elev=50)
+    ax.view_init(azim=-60, elev=50)  # type: ignore
     ax.set_xlim(-radius_toroidal, radius_toroidal)
     ax.set_ylim(-radius_toroidal, radius_toroidal)
-    ax.set_zlim(-radius_toroidal, radius_toroidal)
+    ax.set_zlim(-radius_toroidal, radius_toroidal)  # type: ignore
 
     # TODO: Uncomment the following lines one-by-one
     ax.scatter(x, y, z)
-    # ax.plot_wireframe(x, y, z)
-    # ax.plot_surface(x, y, z)
+    # ax.plot_wireframe(x, y, z)  # type: ignore
+    # ax.plot_surface(x, y, z)  # type: ignore
 
 
-def main():
-    fig = plt.figure(os.path.basename(sys.argv[0]), constrained_layout=True)
-
-    gs = fig.add_gridspec(1, 1)
-    ax = fig.add_subplot(gs[0, 0], projection="3d")
-
-    plot(ax)
-
+def main() -> None:
+    fig: Figure = plt.figure(os.path.basename(sys.argv[0]), constrained_layout=True)
+    gs: GridSpec = fig.add_gridspec(1, 1)
+    ax: Axes = fig.add_subplot(gs[0, 0], projection="3d")  # type: ignore
+    plot(ax)  # type: ignore
     plt.show()
 
 

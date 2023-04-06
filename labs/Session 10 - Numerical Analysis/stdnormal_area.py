@@ -10,7 +10,7 @@ def f(x: float) -> float:
 
 
 def main() -> None:
-    integral: float = scipy.integrate.quad(f, -1, 1)[0]
+    integral: float = scipy.integrate.quad(f, -1, 1)[0]  # type: ignore
 
     # See https://en.wikipedia.org/wiki/68%E2%80%9395%E2%80%9399.7_rule
     print(f"Normal CDF: Probability X is within ± 1st sigma = {integral:.5%}")

@@ -3,8 +3,6 @@
 
 from __future__ import annotations
 
-import os
-import sys
 import typing
 
 import matplotlib.pyplot as plt
@@ -14,12 +12,10 @@ from sympy import lambdify, latex, real_roots, symbols  # type: ignore
 
 if typing.TYPE_CHECKING:
     from matplotlib.axes import Axes
-    from matplotlib.figure import Figure
-    from matplotlib.gridspec import GridSpec
     from numpy.typing import NDArray
 
 
-def plot(ax: plt.Axes) -> None:
+def plot(ax: Axes) -> None:
     """Plot a polynomial with its zeros and extrema points"""
     # Declare x to be a sympy symbol, not a python variable
     x: Symbol = symbols("x")
@@ -75,10 +71,8 @@ def plot(ax: plt.Axes) -> None:
 
 
 def main() -> None:
-    fig: Figure = plt.figure(os.path.basename(sys.argv[0]))
-    gs: GridSpec = fig.add_gridspec(1, 1)
-    ax: Axes = fig.add_subplot(gs[0, 0])  # type: ignore
-    plot(ax)  # type: ignore
+    plt.figure(__file__)
+    plot(plt.axes())
     plt.show()
 
 

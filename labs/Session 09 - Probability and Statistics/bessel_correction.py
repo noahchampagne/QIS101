@@ -16,8 +16,6 @@ from numpy.random import choice, randint, seed  # type: ignore
 
 if typing.TYPE_CHECKING:
     from matplotlib.axes import Axes
-    from matplotlib.figure import Figure
-    from matplotlib.gridspec import GridSpec
     from numpy.typing import NDArray
 
 
@@ -102,10 +100,8 @@ def main() -> None:
         results: list[tuple[float, float, float, float]] = run_trials()
         with open(file_name, "wb") as file_out:
             pickle.dump(results, file_out, pickle.HIGHEST_PROTOCOL)
-        fig: Figure = plt.figure(os.path.basename(sys.argv[0]))
-        gs: GridSpec = fig.add_gridspec(1, 1)
-        ax: Axes = fig.add_subplot(gs[0, 0])  # type: ignore
-        plot_ratio(ax, results)  # type: ignore
+        plt.figure(__file__)
+        plot_ratio(plt.axes(), results)  # type: ignore
         plt.show()
     else:
         with open(file_name, "rb") as file_in:
@@ -119,10 +115,8 @@ def main() -> None:
                 f"{ubsv:^18,.4f}",
             )
 
-        fig = plt.figure(os.path.basename(sys.argv[0]))
-        gs = fig.add_gridspec(1, 1)
-        ax = fig.add_subplot(gs[0, 0])  # type: ignore
-        plot_ubsv(ax, results)  # type: ignore
+        plt.figure(__file__)
+        plot_ubsv(plt.axes(), results)
         plt.show()
 
 

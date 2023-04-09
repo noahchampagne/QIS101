@@ -3,8 +3,6 @@
 
 from __future__ import annotations
 
-import os
-import sys
 import typing
 
 import matplotlib.pyplot as plt
@@ -12,12 +10,10 @@ import numpy as np
 
 if typing.TYPE_CHECKING:
     from matplotlib.axes import Axes
-    from matplotlib.figure import Figure
-    from matplotlib.gridspec import GridSpec
     from numpy.typing import NDArray
 
 
-def plot(ax: plt.Axes) -> None:
+def plot(ax: Axes) -> None:
     np.random.seed(2017)
 
     num_steps: int = 10000
@@ -46,11 +42,8 @@ def plot(ax: plt.Axes) -> None:
 
 
 def main() -> None:
-    fig: Figure = plt.figure(os.path.basename(sys.argv[0]))
-    gs: GridSpec = fig.add_gridspec(1, 1)
-    ax: Axes = fig.add_subplot(gs[0, 0])# type: ignore
-    plot(ax)# type: ignore
-
+    plt.figure(__file__)    
+    plot(plt.axes())
     plt.show()
 
 

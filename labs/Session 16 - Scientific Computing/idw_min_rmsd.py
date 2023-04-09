@@ -1,30 +1,57 @@
 #!/usr/bin/env python3
-# idw_min_rmsd.py
+"""idw_min_rmsd.py"""
 
-import numpy as np
+from __future__ import annotations
+
+import typing
+
 import matplotlib.pyplot as plt
-from numba import jit
-import sys
-import os
+import numpy as np
+from numba import njit  # type: ignore
+
+if typing.TYPE_CHECKING:
+    from matplotlib.axes import Axes
+    from numpy.typing import NDArray
+
+ocean_size: int = 390
+num_intervals: int = 65
+num_samples: int = 220
+
+samples_x: NDArray[np.float_]
+samples_y: NDArray[np.float_]
+samples_z: NDArray[np.float_]
+
+grid_x: NDArray[np.float_]
+grid_y: NDArray[np.float_]
+grid_z: NDArray[np.float_]
+
+est_z: NDArray[np.float_]
 
 
-def act_height(x, y):
+def act_height(x: NDArray[np.float_], y: NDArray[np.float_]) -> NDArray[np.float_]:
     # Calculate the height of the "actual" ocean at (x,y)
-    return (
-        30 * np.sin(y / 40) * np.cos(x / 40) + 50 * np.sin(np.sqrt(x * x + y * y) / 40)
-    ) - 800
+    return np.array(
+        (
+            30 * np.sin(y / 40) * np.cos(x / 40)
+            + 50 * np.sin(np.sqrt(x * x + y * y) / 40)
+        )
+        - 800
+    )
 
 
-def init_samples():
+def init_samples() -> None:
     np.random.seed(2016)
 
     global ocean_size, num_intervals, num_samples
-    ocean_size, num_intervals, num_samples = 390, 65, 220
+    ocean_size = 390
+    num_intervals = 65
+    num_samples = 220
 
     global grid_x, grid_y, grid_z
     grid_x, grid_y = np.mgrid[
-        0 : ocean_size : complex(0, num_intervals),
-        0 : ocean_size : complex(0, num_intervals),
+        # See numpy.mgrid() docs for why using complex() for step length
+        0 : ocean_size : complex(0, num_intervals),  # type: ignore
+        0 : ocean_size : complex(0, num_intervals),  # type: ignore
     ]
     grid_z = act_height(grid_x, grid_y)
 
@@ -34,8 +61,8 @@ def init_samples():
     samples_z = act_height(samples_x, samples_y)
 
 
-@jit(nopython=True)
-def calc_idw_height(xi, yi, p):
+@njit  # type: ignore
+def calc_idw_height(xi: int, yi: int, p: float) -> float:
     sum_weight = 0.0
     sum_height_weight = 0.0
     for si in range(num_samples):
@@ -43,14 +70,14 @@ def calc_idw_height(xi, yi, p):
             grid_x[xi, xi] - samples_x[si], grid_y[yi, yi] - samples_y[si]
         )
         if distance == 0:
-            return samples_z[si]
-        weight = 1 / np.power(distance, p)
+            return float(samples_z[si])
+        weight: float = 1.0 / np.power(distance, p)
         sum_weight += weight
         sum_height_weight += samples_z[si] * weight
     return sum_height_weight / sum_weight
 
 
-def est_height(p):
+def est_height(p: float) -> NDArray[np.float_]:
     global est_z
     est_z = np.zeros_like(grid_x)
     for xi in range(num_intervals):
@@ -59,24 +86,24 @@ def est_height(p):
     return est_z
 
 
-def calc_rmsd(p):
+def calc_rmsd(p: float) -> NDArray[np.float_]:
     sum_errors = 0.0
     for xi in range(num_intervals):
         for yi in range(num_intervals):
-            act = grid_z[xi, yi]
-            est = calc_idw_height(xi, yi, p)
+            act: float = grid_z[xi, yi]
+            est: float = calc_idw_height(xi, yi, p)
             sum_errors += (act - est) ** 2
     rmsd = np.sqrt(sum_errors / num_samples**2)
-    return rmsd
+    return np.array(rmsd, dtype=np.float_)
 
 
-def plot(ax):
-    p = np.linspace(1.0, 9.0, 50)
+def plot(ax: Axes) -> None:
+    p: NDArray[np.float_] = np.linspace(1.0, 9.0, 50)
     calc_rmsd_vec = np.vectorize(calc_rmsd)
     rmsd = calc_rmsd_vec(p)
 
-    min_rmsd = np.amin(rmsd)
-    best_p = p[np.argmin(rmsd)]
+    min_rmsd: int = np.amin(rmsd)
+    best_p: float = p[np.argmin(rmsd)]
 
     ax.plot(p, rmsd)
     ax.scatter(best_p, min_rmsd, color="red")
@@ -88,15 +115,11 @@ def plot(ax):
     ax.text(5.0, 3.0, f"best p = {best_p:.4f}", ha="left")
 
 
-def main():
-
+def main() -> None:
     init_samples()
 
-    fig = plt.figure(os.path.basename(sys.argv[0]))
-    gs = fig.add_gridspec(1, 1)
-    ax = fig.add_subplot(gs[0, 0])
-    plot(ax)
-
+    plt.figure(__file__)
+    plot(plt.axes())
     plt.show()
 
 

@@ -2,6 +2,8 @@ cd $HOME
 conda update -n base conda -y
 conda create -y -n qis101 python=3.9
 conda activate qis101
+pip install pyqt5
+pip install pyqt6
 pip install mayavi
 pip install numpy
 pip install numba

@@ -1,77 +1,76 @@
 #!/usr/bin/env python3
-# k_means.py
+"""k_means.py"""
 
-import os
-import sys
+from __future__ import annotations
+
+import typing
+from dataclasses import dataclass
 
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.markers import MarkerStyle
+from pathlib import Path
 
-K_CLUSTERS = 3
-INCLUDE_OUTLIERS = False
-MEAN_MULTIPLE = 0
+if typing.TYPE_CHECKING:
+    from typing import Any
 
-COLMAP = ("red", "blue", "green", "purple", "yellow", "orange")
+    from matplotlib.axes import Axes
+    from numpy.typing import NDArray
+
+K_CLUSTERS: int = 3
+INCLUDE_OUTLIERS: bool = False
+MEAN_MULTIPLE: int = 0
+
+COLMAP: tuple[str, ...] = ("red", "blue", "green", "purple", "yellow", "orange")
 
 
+@dataclass
 class DataPoint:
-    def __init__(self, x: float, y: float):
-        self.x: float = x
-        self.y: float = y
-        self.cluster: Cluster = Cluster(-1)
-
-    def __eq__(self, other):
-        return self.x == other.x and self.y == other.y
-
-    def __repr__(self):
-        return f"DataPoint({self.x}, {self.y})"
+    x: float = 0.0
+    y: float = 0.0
+    cluster: Any = None
 
 
+@dataclass
 class Cluster:
-    def __init__(self, index: int):
-        self.index: int = index
-        self.x: float = 0.0
-        self.y: float = 0.0
-        self.population: int = 0
-        self.mean_distance: float = 0.0
-        self.color: str = COLMAP[index]
-
-    def __eq__(self, other):
-        return self.index == other.index
-
-    def __repr__(self):
-        return f"Cluster({self.index})"
+    index: int = 0
+    color: str = ""
+    x: float = 0.0
+    y: float = 0.0
+    population: int = 0
+    mean_distance: float = 0.0
 
 
-def init_clusters(k):
-    clusters = [Cluster(i) for i in range(k)]
+def init_clusters(k: int) -> list[Cluster]:
+    clusters: list[Cluster] = [Cluster(index=i, color=COLMAP[i]) for i in range(k)]
     return clusters
 
 
-def init_points(file_name):
-    samples = np.genfromtxt(f"{file_name}", delimiter=",")
-    points = []
+def init_points(data_file: Path) -> list[DataPoint]:
+    samples: NDArray[np.float_] = np.genfromtxt(data_file, delimiter=",")
+    points: list[DataPoint] = []
     for s in samples:
         point = DataPoint(s[0], s[1])
         points.append(point)
     return points
 
 
-def init_assign(points, clusters):
-    k = len(clusters)
+def init_assign(points: list[DataPoint], clusters: list[Cluster]) -> None:
+    k: int = len(clusters)
     for idx, p in enumerate(points):
-        c = clusters[idx % k]
+        c: Cluster = clusters[idx % k]
         p.cluster = c
         c.population += 1
 
 
-def reassign(points, clusters):
-    converged = True
-
+def reassign(points: list[DataPoint], clusters: list[Cluster]) -> bool:
     # Phase I: Calculate the new geometric mean of each
     # cluster based upon current data point assignments
+    converged = True
+    c: Cluster
     for c in clusters:
-        new_x, new_y = 0, 0
+        new_x: float = 0.0
+        new_y: float = 0.0
         for p in points:
             if p.cluster == c:
                 new_x += p.x
@@ -85,8 +84,8 @@ def reassign(points, clusters):
 
     # Phase II: Assign data points to nearest cluster
     for p in points:
-        dist_min = sys.float_info.max
-        nearest_cluster = Cluster(-1)
+        dist_min: np.float64 = np.finfo(np.float64).max
+        nearest_cluster: Cluster = Cluster()
         for c in clusters:
             dist = np.hypot(p.x - c.x, p.y - c.y)
             if dist < dist_min:
@@ -112,7 +111,7 @@ def reassign(points, clusters):
         # Only keep points where the distance to its assigned cluster's
         # center is less than a multiple of that cluster's mean distance
         # to its assigned points
-        new_points = []
+        new_points: list[DataPoint] = []
         for p in points:
             c = p.cluster
             dist = np.hypot(p.x - c.x, p.y - c.y)
@@ -120,7 +119,7 @@ def reassign(points, clusters):
                 new_points.append(p)
             else:
                 if c.population > 1:
-                    print(f"Evicted {p} from {c}")
+                    print(f"Evicted DataPoint({p.x}, {p.y}) from Cluster {c.index}")
                     c.population -= 1
                     converged = False
         points[:] = new_points
@@ -128,7 +127,7 @@ def reassign(points, clusters):
     return converged
 
 
-def plot(ax, points, clusters):
+def plot(ax: Axes, points: list[DataPoint], clusters: list[Cluster]) -> None:
     ax.set_aspect("equal")
     ax.set_xlim(-5, 45)
     ax.set_ylim(-5, 45)
@@ -138,10 +137,15 @@ def plot(ax, points, clusters):
         ax.scatter(p.x, p.y, color=p.cluster.color, alpha=0.5, edgecolor="black")
 
     for c in clusters:
-        ax.scatter(c.x, c.y, color=c.color, marker="s")
+        ax.scatter(c.x, c.y, color=c.color, marker=MarkerStyle("s"))
 
 
-def on_key_press(event, ax, points, clusters):
+def on_key_press(  # type: ignore
+    event,  # type: ignore
+    ax: Axes,
+    points: list[DataPoint],
+    clusters: list[Cluster],  # type: ignore
+) -> None:
     if event.key == "n":
         if reassign(points, clusters):
             print("Cluster has converged!")
@@ -150,19 +154,20 @@ def on_key_press(event, ax, points, clusters):
         plt.draw()
 
 
-def main():
-    fig = plt.figure(os.path.basename(sys.argv[0]))
-    gs = fig.add_gridspec(1, 1)
-    ax = fig.add_subplot(gs[0, 0])
+def main() -> None:
+    plt.figure(__file__)
 
-    fig.canvas.mpl_connect(
-        "key_press_event", lambda event: on_key_press(event, ax, points, clusters)
+    ax: Axes = plt.axes()
+
+    plt.gcf().canvas.mpl_connect(
+        "key_press_event",
+        lambda event: on_key_press(event, ax, points, clusters),  # type: ignore
     )
 
-    clusters = init_clusters(K_CLUSTERS)
+    clusters: list[Cluster] = init_clusters(K_CLUSTERS)
 
-    file_name = os.path.dirname(sys.argv[0]) + "/cluster_samples.csv"
-    points = init_points(file_name)
+    data_file: Path = Path(__file__).parent.joinpath("cluster_samples.csv")
+    points: list[DataPoint] = init_points(data_file)
 
     if not INCLUDE_OUTLIERS:
         points.pop()

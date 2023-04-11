@@ -3,10 +3,9 @@
 
 from __future__ import annotations
 
-import os
 import pickle
-import sys
 import typing
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -22,7 +21,7 @@ if typing.TYPE_CHECKING:
 @njit  # type: ignore
 def get_bsv(arr: NDArray[np.int_]) -> float:
     mean: np.float_ = np.mean(arr)
-    bsv: float = float(np.sum((arr - mean) ** 2) / len(arr))
+    bsv: float = float(np.sum((arr - mean) ** 2) / len(arr))  # type: ignore
     return bsv
 
 
@@ -95,16 +94,16 @@ def plot_ubsv(ax: Axes, results: list[tuple[float, float, float, float]]) -> Non
 
 
 def main() -> None:
-    file_name: str = os.path.dirname(sys.argv[0]) + "/bessel.pickle"
-    if not os.path.exists(file_name):
+    data_file: Path = Path(__file__).parent.joinpath("bessel.pickle")
+    if not data_file.exists():
         results: list[tuple[float, float, float, float]] = run_trials()
-        with open(file_name, "wb") as file_out:
+        with open(data_file, "wb") as file_out:
             pickle.dump(results, file_out, pickle.HIGHEST_PROTOCOL)
         plt.figure(__file__)
         plot_ratio(plt.axes(), results)  # type: ignore
         plt.show()
     else:
-        with open(file_name, "rb") as file_in:
+        with open(data_file, "rb") as file_in:
             results = pickle.load(file_in)
         print(f"{'Sample Size':^11}{'Sample Var':^21}{'Pop Var':^16}{'UBSV':^12}")
         for r in results:

@@ -48,10 +48,10 @@ def main() -> None:
 
     m1: float  # Mean of 1d20 rolls
     s1: float  # Standard Deviation of 1d20 rolls
+    m1, s1 = calc_stats_1d20(num_rolls)
+
     m3: float  # Mean of 3d6 rolls
     s3: float  # Standard Deviation of 3d6 rolls
-
-    m1, s1 = calc_stats_1d20(num_rolls)
     m3, s3 = calc_stats_3d6(num_rolls)
 
     print(f"Mean ability (1d20): {m1:.2f}")

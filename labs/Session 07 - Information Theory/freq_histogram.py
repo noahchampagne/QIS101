@@ -48,7 +48,6 @@ def plot(ax: Axes, data_file: Path) -> None:
 
 def main(data_file: Path) -> None:
     plt.figure(__file__, figsize=(12, 8))
-    # plt.gcf().set_size_inches(12, 8)
     plot(plt.axes(), data_file)
     plt.show()
 

@@ -64,8 +64,7 @@ def main() -> None:
     m, b = fit_linear(steps, distances_squared)
     print(f"Slope of line = {m:.4f}")
 
-    plt.figure(__file__)
-    plt.gcf().set_size_inches(12, 5)
+    plt.figure(__file__, figsize=(12, 5))
 
     ax: Axes = plt.subplot(121)
     ax.plot(steps, distances)

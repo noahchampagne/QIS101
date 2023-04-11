@@ -2,10 +2,11 @@
 """caesar_decrypt.py"""
 
 import sys
+from pathlib import Path
 
 
-def main(file_name:str, key_shift:int) -> None:
-    with open(file_name, "rb") as f_in:
+def main(data_file: Path, key_shift: int) -> None:
+    with open(data_file, "rb") as f_in:
         f_bytes: bytearray = bytearray(f_in.read())
 
         for i in range(0, len(f_bytes)):
@@ -15,9 +16,8 @@ def main(file_name:str, key_shift:int) -> None:
 
 
 if __name__ == "__main__":
-    if len(sys.argv) == 1:
-        print("You must provide a filename and a key value")
+    if len(sys.argv) < 3:
+        print("You must provide a filename AND a key value")
     else:
-        file_name: str = sys.argv[1]
         key_shift: int = int(sys.argv[2])
-        main(file_name, key_shift)
+        main(Path(sys.argv[1]), key_shift)

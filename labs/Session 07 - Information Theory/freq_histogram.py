@@ -3,9 +3,9 @@
 
 from __future__ import annotations
 
-import os
 import sys
 import typing
+from pathlib import Path
 from typing import Counter
 
 import matplotlib.pyplot as plt
@@ -17,9 +17,9 @@ if typing.TYPE_CHECKING:
     from numpy.typing import NDArray
 
 
-def plot(ax: Axes, file_name: str) -> None:
+def plot(ax: Axes, data_file: Path) -> None:
     # Determine the length of the file
-    with open(file_name, "rb") as f_in:
+    with open(data_file, "rb") as f_in:
         f_bytes: bytearray = bytearray(f_in.read())
         file_size: int = f_in.tell()
         f_in.close()
@@ -33,9 +33,7 @@ def plot(ax: Axes, file_name: str) -> None:
             ticks.append(float(char))
 
     # Display a histogram of ASCII values and their count in the file
-    base: str = os.path.basename(file_name)
-    text_name: str = os.path.splitext(base)[0]
-    ax.set_title(f"Frequency Analysis ({text_name})")
+    ax.set_title(f"Frequency Analysis ({data_file.name})")
     ax.set_xlabel("ASCII Value")
     ax.set_ylabel("Count")
 
@@ -48,15 +46,15 @@ def plot(ax: Axes, file_name: str) -> None:
     ax.yaxis.set_minor_locator(AutoMinorLocator())
 
 
-def main(file_name: str) -> None:
-    plt.figure(__file__)
-    plt.gcf().set_size_inches(12, 8)
-    plot(plt.axes(), file_name)
+def main(data_file: Path) -> None:
+    plt.figure(__file__, figsize=(12, 8))
+    # plt.gcf().set_size_inches(12, 8)
+    plot(plt.axes(), data_file)
     plt.show()
 
 
 if __name__ == "__main__":
-    if len(sys.argv) == 1:
+    if len(sys.argv) < 2:
         print("You must provide a filename")
     else:
-        main(sys.argv[1])
+        main(Path(sys.argv[1]))

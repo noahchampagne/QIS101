@@ -32,7 +32,7 @@
             "reportImplicitStringConcatenation": "warning",
             "reportUntypedFunctionDecorator": "warning",
         },
-        "python.formatting.provider": "black",
+        "python.formatting.provider": "none",
         "python.linting.enabled": true,
         "python.linting.lintOnSave": true,
         "python.linting.mypyEnabled": true,
@@ -48,6 +48,9 @@
         "python.terminal.activateEnvironment": false,
         "output.smartScroll.enabled": false,
         "notebook.formatOnSave.enabled": true,
+        "[python]": {
+            "editor.defaultFormatter": "ms-python.black-formatter"
+        },
     },
     "launch": {
         "version": "0.2.0",

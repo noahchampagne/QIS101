@@ -1,34 +1,38 @@
 #!/usr/bin/env python3
-# ifs_square.py
+"""ifs_square.py"""
 
-from simple_screen import SimpleScreen
 from ifs import IteratedFunctionSystem
+from pygame import Color
+from simple_screen import SimpleScreen
 
 ifs = IteratedFunctionSystem()
 
 
-def plot_ifs(ss):
+def plot_ifs(ss: SimpleScreen) -> None:
     iterations = 200_000
-    x, y = 0, 0
+    x: float = 0.0
+    y: float = 0.0
+    clr: Color
 
     # Iterate (but don't draw) to let IFS reach its stable orbit
     for _ in range(100):
-        x, y, color = ifs.transform_point(x, y)
+        x, y, clr = ifs.transform_point(x, y)
 
+    # Now draw each pixel in the stable orbit
     for _ in range(iterations):
-        x, y, color = ifs.transform_point(x, y)
-        ss.set_world_pixel(x, y, color)
+        x, y, clr = ifs.transform_point(x, y)
+        ss.set_world_pixel(x, y, clr)
 
 
-def main():
+def main() -> None:
     ifs.set_base_frame(0, 0, 4, 4)
 
-    p = 1 / 4
+    p: float = 1 / 4
 
-    ifs.add_mapping(0, 0, 2, 0, 0, 2, "blue", p)
-    ifs.add_mapping(2, 0, 4, 0, 2, 2, "yellow", p)
-    ifs.add_mapping(0, 2, 2, 2, 0, 4, "red", p)
-    ifs.add_mapping(2, 2, 4, 2, 2, 4, "green", p)
+    ifs.add_mapping(0, 0, 2, 0, 0, 2, Color("blue"), p)
+    ifs.add_mapping(2, 0, 4, 0, 2, 2, Color("yellow"), p)
+    ifs.add_mapping(0, 2, 2, 2, 0, 4, Color("red"), p)
+    ifs.add_mapping(2, 2, 4, 2, 2, 4, Color("green"), p)
 
     ifs.generate_transforms()
 

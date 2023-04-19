@@ -10,6 +10,7 @@
             "tab.unfocusedActiveBorder": "#000000",
         },
         "debug.terminal.clearBeforeReusing": false,
+        "editor.defaultFormatter": null,
         "editor.formatOnSave": true,
         "editor.unusualLineTerminators": "prompt",
         "files.autoSave": "afterDelay",

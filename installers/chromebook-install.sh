@@ -35,10 +35,12 @@ pip install nodejs
 pip install jupyterlab
 pip install jupyterlab_widgets
 pip install jupyterlab_code_formatter
+pip install jupyter_contrib_nbextensions
 pip install jupyterblack
 pip install ipympl
 pip install pygame
 pip install 'qiskit[all]'
+pip install qiskit_ibm_runtime
 code --install-extension ms-vscode.cpptools
 code --install-extension ms-vscode.cpptools-extension-pack
 code --install-extension ms-vscode.powershell

@@ -10,9 +10,9 @@ def decode_gencf(form: tuple[int, ...]) -> float:
     """Evaluates a generalized continued fraction of the given form"""
     a0, b0, Ai, Bi, Ci, Di, Ei = form
     an, bn = a0, b0
-    hn, kn = 0, 0
-    b_1, h_1, k_1 = 1, 1, 0
-    h_2, k_2 = 0, 1
+    hn, kn = 0.0, 0.0
+    b_1, h_1, k_1 = 1.0, 1.0, 0.0
+    h_2, k_2 = 0.0, 1.0
     for n in range(1, MAX_TERMS):
         hn = an * h_1 + b_1 * h_2
         kn = an * k_1 + b_1 * k_2

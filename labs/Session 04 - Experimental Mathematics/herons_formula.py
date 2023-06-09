@@ -4,6 +4,7 @@
 from math import sqrt
 from random import randint
 
+
 def is_triangle(triangle: tuple[int, int, int]) -> bool:
     """Determine if a triangle is non-degenerate"""
     a, b, c = triangle

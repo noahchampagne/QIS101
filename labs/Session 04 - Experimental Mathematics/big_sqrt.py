@@ -13,7 +13,7 @@ if typing.TYPE_CHECKING:
     from typing import Any
 
 
-def square_root(x: float) -> Any:
+def square_root(x: Any) -> Any:
     """Return square root of x using Newton's Method"""
     low_end: Any = mpf(0.0)
     high_end: Any = mpf(x)

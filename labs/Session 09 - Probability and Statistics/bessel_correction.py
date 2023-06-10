@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.ticker import MultipleLocator
 from numba import njit  # type: ignore
-from numpy.random import choice, randint, seed  # type: ignore
+from numpy.random import choice, randint  # type: ignore
 
 if typing.TYPE_CHECKING:
     from matplotlib.axes import Axes
@@ -37,7 +37,6 @@ def get_sample_bsv(population: NDArray[np.int_], sample_size: int) -> float:
 
 
 def run_trials() -> list[tuple[float, float, float, float]]:
-    seed(2021)
     population: NDArray[np.int_] = randint(0, 1000, 7000)
     pop_var: float = get_bsv(population)
 

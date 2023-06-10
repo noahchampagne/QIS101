@@ -19,19 +19,19 @@ def median(samples: list[int]) -> float:
 
 def mode(samples: list[int]) -> list[int]:
     # Create a dictionary to tally the occurrence of each value
-    count: Counter[int] = Counter(sorted(samples))
+    count: Counter[int] = Counter(samples)
     # Find the maximum count of all keys (samples)
     max_count: int = max(count.values())
     # Select the keys which have that max count
     return [k for k, v in count.items() if v == max_count]
 
 
-def sample_variance(samples: list[int]) -> float:
+def population_variance(samples: list[int]) -> float:
     m: float = mean(samples)
     v: float = 0.0
     for i in range(0, len(samples)):
         v += (samples[i] - m) ** 2
-    v /= len(samples) - 1
+    v /= len(samples)
     return v
 
 
@@ -44,33 +44,25 @@ def main() -> None:
         samples.append(randint(0, 100))
 
     # Print list in rows of 10 elements each
-    print("Samples = list[")
-    for i in range(3):
-        print("\t", end="")
-        print(*samples[i * 10 : i * 10 + 10], sep=", ", end=",\n")
-    print("]\n")
+    print(f"Samples = {samples}\n")
 
     # Compare common statistics calculated via custom code
     # versus using the standard library "statistics" package
     print(f"Mean    = {mean(samples):.4f}")
-    print(f"Mean    = {statistics.mean(samples):.4f}")
-    print()
+    print(f"Mean    = {statistics.mean(samples):.4f}\n")
 
     print(f"Median  = {median(samples):.4f}")
-    print(f"Median  = {statistics.median(samples):.4f}")
-    print()
+    print(f"Median  = {statistics.median(samples):.4f}\n")
 
     print(f"Mode    = {mode(samples)}")
-    print(f"Mode    = {sorted(statistics.multimode(samples))}")
-    print()
+    print(f"Mode    = {sorted(statistics.multimode(samples))}\n")
 
-    v: float = sample_variance(samples)
-    print(f"Sample Variance = {v:.4f}")
-    print(f"Sample Variance = {statistics.variance(samples):.4f}")
-    print()
+    v: float = population_variance(samples)
+    print(f"Population Variance = {v:.4f}")
+    print(f"Population Variance = {statistics.pvariance(samples):.4f}\n")
 
-    print(f"Sample Std. Dev = {sqrt(v):.4f}")
-    print(f"Sample Std. Dev = {statistics.stdev(samples):.4f}")
+    print(f"Population Std. Dev = {sqrt(v):.4f}")
+    print(f"Population Std. Dev = {statistics.pstdev(samples):.4f}")
 
 
 if __name__ == "__main__":

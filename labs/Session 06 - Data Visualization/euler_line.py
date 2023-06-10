@@ -39,7 +39,6 @@ rlineAC: RadLine = RadLine(theta=0.0, d=0.0)
 rlineBC: RadLine = RadLine(theta=0.0, d=0.0)
 
 prng_seed: int = 2018
-# prng_seed = 2019
 
 
 def radline_y(rline: RadLine, x: NDArray[np.float_]) -> NDArray[np.float_]:

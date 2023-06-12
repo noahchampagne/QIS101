@@ -72,7 +72,7 @@ def main() -> None:
         # Evaluate the symbolic expression at x = 2/9
         print(f"{t:>5}  {3 * eqn[1](2/9):.14f}", end="")
         if t < 8:
-            print(f" = {expr_to_str(eqn[0], 5)}", end=" ")
+            print(f" = 3*({expr_to_str(eqn[0], 5)})", end=" ")
         print()
 
     # Compare the Binomial Expression convergence rate to Heron's Method

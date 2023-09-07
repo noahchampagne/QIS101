@@ -39,8 +39,8 @@ def pachinko_normal(num_balls: int, num_levels: int) -> NDArray[np.int_]:
 
 
 def plot(ax: Axes) -> None:
-    num_levels: int = 10
-    num_balls: int = 1000
+    num_levels: int = 100
+    num_balls: int = 1000000
 
     balls: NDArray[np.int_] = pachinko_normal(num_balls, num_levels)
     slots: NDArray[np.float_] = np.zeros(num_levels + 1, dtype=np.float_)

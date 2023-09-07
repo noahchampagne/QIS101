@@ -29,10 +29,14 @@ def main() -> None:
 
     p: float = 1 / 4
 
-    ifs.add_mapping(0, 0, 2, 0, 0, 2, Color("blue"), p)
-    ifs.add_mapping(2, 0, 4, 0, 2, 2, Color("yellow"), p)
-    ifs.add_mapping(0, 2, 2, 2, 0, 4, Color("red"), p)
-    ifs.add_mapping(2, 2, 4, 2, 2, 4, Color("green"), p)
+    # ifs.add_mapping(0, 0, 2, 0, 0, 2, Color("blue"), p)
+    # ifs.add_mapping(2, 0, 4, 0, 2, 2, Color("yellow"), p)
+    # ifs.add_mapping(0, 2, 2, 2, 0, 4, Color("red"), p)
+    # ifs.add_mapping(2, 2, 4, 2, 2, 4, Color("green"), p)
+    ifs.add_mapping(0, 0, 1.5, 0, 0, 1.5, Color("blue"), p)
+    ifs.add_mapping(2.5, 0, 4, 0, 2.5, 1.5, Color("yellow"), p)
+    ifs.add_mapping(0, 2.5, 1.5, 2.5, 0, 4, Color("red"), p)
+    ifs.add_mapping(2.5, 2.5, 4, 2.5, 2.5, 4, Color("green"), p)
 
     ifs.generate_transforms()
 

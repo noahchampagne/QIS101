@@ -53,6 +53,8 @@ def binomial_expand(a: int, b: int, c: int, r: float, max_t: int) -> tuple[Any, 
         # Append this term (as a symbolic expression in x)
         # to the growing polynomial of max_t terms
         poly += calc_coeff(a, b, r, t) * x ** (c * t)
+        print(poly)
+        input()
     return poly, lambdify(x, poly.as_expr(), modules="numpy")  # type: ignore
 
 

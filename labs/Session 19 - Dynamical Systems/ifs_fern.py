@@ -9,9 +9,9 @@ ifs = IteratedFunctionSystem()
 
 
 def plot_ifs(ss: SimpleScreen) -> None:
-    iterations = 200_000
-    x: float = 0.0
-    y: float = 0.0
+    iterations = 1_000_000
+    x: float = 0
+    y: float = 0
     clr: Color
 
     # Iterate (but don't draw) to let IFS reach its stable orbit
@@ -27,10 +27,10 @@ def plot_ifs(ss: SimpleScreen) -> None:
 def main() -> None:
     ifs.set_base_frame(0, 0, 48, 48)
 
-    ifs.add_mapping(24, 0, 24, 0, 24, 10, Color("green"), 0.01)
-    ifs.add_mapping(20, 4, 28, 17.5, 6, 12, Color("green"), 0.07)
-    ifs.add_mapping(20.5, 14, 28, -1, 35, 22.5, Color("green"), 0.07)
-    ifs.add_mapping(4, 12.5, 44, 9, 7.5, 53, Color("green"), 0.85)
+    ifs.add_mapping(24, 0, 24, 0, 24, 10, Color("green"), 0.01)  # Stem
+    ifs.add_mapping(20.5, 4, 27.5, 17.5, 6, 12, Color("green"), 0.07)  # Leaf
+    ifs.add_mapping(20, 14, 27.5, -1, 35, 22.5, Color("green"), 0.07)  # Leaf
+    ifs.add_mapping(4, 12.5, 44, 9, 7.5, 53, Color("green"), 0.85)  # Base
 
     ifs.generate_transforms()
 

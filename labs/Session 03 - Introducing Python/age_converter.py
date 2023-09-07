@@ -3,9 +3,9 @@
 
 
 def main() -> None:
-    first_name: str = "Dave"
+    first_name: str = "Noah"
 
-    age_years: int = 55
+    age_years: int = 19
 
     # Convert years to seconds
     age_secs: int = age_years * 60 * 60 * 24 * 365

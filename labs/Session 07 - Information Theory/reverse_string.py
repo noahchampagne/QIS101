@@ -39,7 +39,7 @@ def main() -> None:
     print("".join(reversed(s)))
 
     # Reverse 's' using array slicing
-    print(s[::-1])
+    print(s[10:-1:-1])
 
 
 if __name__ == "__main__":

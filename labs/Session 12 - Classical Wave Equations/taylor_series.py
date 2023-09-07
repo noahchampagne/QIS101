@@ -37,6 +37,8 @@ def plot(ax: Axes) -> None:
     print(f"Taylor Series for cos(x) = {poly}")
     ax.plot(x, eqn(x), label=f"Taylor ({num_terms} terms)")
 
+    input(poly)
+
     # Plot Euler's Method for d[cos(x)] = -sin(x)
     xm: NDArray[np.float_] = np.linspace(0, 2 * np.pi, 20, dtype=np.float_)
     ym: NDArray[np.float_] = np.zeros(len(xm), dtype=np.float_)
@@ -57,7 +59,7 @@ def plot(ax: Axes) -> None:
 def main() -> None:
     plt.figure(__file__)
     plot(plt.axes())
-    plt.show()
+    # plt.show()
 
 
 if __name__ == "__main__":

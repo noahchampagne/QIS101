@@ -2,6 +2,8 @@
 
 import json
 
+from pathlib import Path
+
 
 def main():
     uranium_isotopes = {
@@ -37,7 +39,9 @@ def main():
         },
     }
 
-    with open("uranium_isotopes.json", "w", encoding="ascii") as outfile:
+    with open(
+        Path(__file__).parent.joinpath("uranium_isotopes.json"), "w", encoding="ascii"
+    ) as outfile:
         json.dump(uranium_isotopes, outfile, indent=4)
 
 

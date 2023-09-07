@@ -6,7 +6,7 @@ from __future__ import annotations
 import typing
 
 import numpy as np
-import scipy.integrate # type: ignore
+import scipy.integrate  # type: ignore
 
 if typing.TYPE_CHECKING:
     from typing import Callable
@@ -14,7 +14,7 @@ if typing.TYPE_CHECKING:
 
 def f(x: float) -> float:
     """This is the function we are numerically integrating"""
-    return float(4 * np.sqrt(1 - x**2))    
+    return float(4 * np.sqrt(1 - x**2))
 
 
 def F(x: float) -> float:

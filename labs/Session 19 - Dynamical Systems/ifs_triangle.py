@@ -29,9 +29,9 @@ def main() -> None:
 
     p: float = 1 / 3
 
-    ifs.add_mapping(0, 0, 15, 0, 0, 15, Color("blue"), p)
-    ifs.add_mapping(15, 0, 30, 0, 15, 15, Color("blue"), p)
-    ifs.add_mapping(7.5, 15, 22.5, 15, 7.5, 30, Color("blue"), p)
+    ifs.add_mapping(0, 0, 15, 0, 0, 15, Color("blue"), 0.4)
+    ifs.add_mapping(15, 0, 30, 0, 15, 15, Color("blue"), 0.4)
+    ifs.add_mapping(7.5, 15, 22.5, 15, 7.5, 30, Color("blue"), 0.2)
 
     ifs.generate_transforms()
 
